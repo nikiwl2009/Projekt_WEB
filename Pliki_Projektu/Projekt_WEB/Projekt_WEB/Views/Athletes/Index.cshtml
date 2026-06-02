@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Projekt_WEB.Models.Athlete>
+
+    @{
+        ViewData["Title"] = "Zawodnicy";
+    }
+
+    <section class="container mt-4">
+        <div class="mb-4">
+            <h1>Zawodnicy</h1>
+            <p class="text-muted">
+                Lista zawodników sportów zimowych z możliwością wyszukiwania, filtrowania i sortowania.
+            </p>
+        </div>
+
+        <form asp-action="Index" method="get" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label for="search" class="form-label">Szukaj</label>
+                <input type="text"
+                       id="search"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="imię, nazwisko, kraj lub klub" />
+            </div>
+
+            <div class="col-md-4">
+                <label for="disciplineId" class="form-label">Dyscyplina</label>
+                <select id="disciplineId" name="disciplineId" class="form-select" asp-items="ViewBag.Disciplines">
+                    <option value="">Wszystkie dyscypliny</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label for="sort" class="form-label">Sortowanie</label>
+                <select id="sort" name="sort" class="form-select">
+                    <option value="">Nazwisko A-Z</option>
+                    <option value="name_desc">Nazwisko Z-A</option>
+                    <option value="points_desc">Punkty malejąco</option>
+                    <option value="points_asc">Punkty rosnąco</option>
+                    <option value="age_asc">Wiek rosnąco</option>
+                    <option value="age_desc">Wiek malejąco</option>
+                </select>
+            </div>
+
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">OK</button>
+            </div>
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">
+                Brak zawodników spełniających wybrane kryteria.
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var athlete in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                    <div>
+                                        <h2 class="h5 mb-1">
+                                            @athlete.FirstName @athlete.LastName
+                                        </h2>
+
+                                        <p class="text-muted mb-2">
+                                            @athlete.Country · @athlete.Club
+                                        </p>
+                                    </div>
+
+                                    <span class="badge bg-primary">
+                                        @athlete.Points pkt
+                                    </span>
+                                </div>
+
+                                <p class="mb-2">
+                                    <strong>Dyscyplina:</strong>
+                                    @(athlete.Discipline != null ? athlete.Discipline.Name : "Brak danych")
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Wiek:</strong> @athlete.Age
+                                </p>
+
+                                <p class="mb-3">
+                                    <strong>Status:</strong> @athlete.Status
+                                </p>
+
+                                <a asp-action="Details"
+                                   asp-route-id="@athlete.AthleteId"
+                                   class="btn btn-outline-primary">
+                                    Szczegóły
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+
+    <script>
+    const sortSelect = document.getElementById("sort");
+
+    if (sortSelect)
+    {
+        sortSelect.value = "@ViewBag.Sort";
+    }
+    </script>
