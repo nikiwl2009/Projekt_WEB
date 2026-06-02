@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nikiw\\OneDrive\\Pulpit\\Projekt_WEB\\Pliki_Projektu\\Projekt_WEB\\Projekt_WEB\\Projekt_WEB.csproj",
+      "projectUniqueName": "C:\\Users\\Nikiw\\source\\repos\\Projekt_WEB\\Pliki_Projektu\\Projekt_WEB\\Projekt_WEB\\Projekt_WEB.csproj",
       "projectName": "Projekt_WEB",
-      "projectPath": "C:\\Users\\Nikiw\\OneDrive\\Pulpit\\Projekt_WEB\\Pliki_Projektu\\Projekt_WEB\\Projekt_WEB\\Projekt_WEB.csproj",
+      "projectPath": "C:\\Users\\Nikiw\\source\\repos\\Projekt_WEB\\Pliki_Projektu\\Projekt_WEB\\Projekt_WEB\\Projekt_WEB.csproj",
       "packagesPath": "C:\\Users\\Nikiw\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nikiw\\OneDrive\\Pulpit\\Projekt_WEB\\Pliki_Projektu\\Projekt_WEB\\Projekt_WEB\\obj\\",
+      "outputPath": "C:\\Users\\Nikiw\\source\\repos\\Projekt_WEB\\Pliki_Projektu\\Projekt_WEB\\Projekt_WEB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
