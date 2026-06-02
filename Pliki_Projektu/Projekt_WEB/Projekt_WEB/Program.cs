@@ -13,6 +13,8 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+DbInitializer.Initialize(app);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
