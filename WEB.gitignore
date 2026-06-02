@@ -1,0 +1,55 @@
+## Visual Studio / .NET
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]uild/
+[Ll]og/
+
+## Rider / VS Code
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+## Test
+TestResults/
+*.trx
+coverage/
+coverage.cobertura.xml
+
+## NuGet
+packages/
+*.nupkg
+.nuget/
+
+## User secrets / local config
+secrets.json
+appsettings.Local.json
+appsettings.*.local.json
+
+## SQLite local database
+*.db
+*.db-shm
+*.db-wal
+
+## Uploads generated locally
+WinterSports.Web/wwwroot/uploads/
+
+## OS
+.DS_Store
+Thumbs.db
+desktop.ini
