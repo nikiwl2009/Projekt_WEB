@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Projekt_WEB.Data;
 using Projekt_WEB.Models;
+using System.Text;
 
 namespace Projekt_WEB.Areas.Admin.Controllers
 {
@@ -28,6 +29,46 @@ namespace Projekt_WEB.Areas.Admin.Controllers
                 .ToListAsync();
 
             return View(athletes);
+        }
+
+        public async Task<IActionResult> ExportCsv()
+        {
+            var athletes = await _context.Athletes
+                .Include(a => a.Discipline)
+                .Include(a => a.Club)
+                .Include(a => a.Results)
+                .OrderBy(a => a.LastName)
+                .ThenBy(a => a.FirstName)
+                .ToListAsync();
+
+            var csv = new StringBuilder();
+
+            csv.AppendLine("Imię;Nazwisko;Wiek;Kraj;Klub;Dyscyplina;Punkty;Status;Liczba wyników");
+
+            foreach (var athlete in athletes)
+            {
+                csv.AppendLine(
+                    EscapeCsv(athlete.FirstName) + ";" +
+                    EscapeCsv(athlete.LastName) + ";" +
+                    athlete.Age + ";" +
+                    EscapeCsv(athlete.Country) + ";" +
+                    EscapeCsv(athlete.Club != null ? athlete.Club.Name : "") + ";" +
+                    EscapeCsv(athlete.Discipline != null ? athlete.Discipline.Name : "") + ";" +
+                    athlete.Points + ";" +
+                    EscapeCsv(GetStatusName(athlete.Status)) + ";" +
+                    athlete.Results.Count
+                );
+            }
+
+            var preamble = Encoding.UTF8.GetPreamble();
+            var content = Encoding.UTF8.GetBytes(csv.ToString());
+
+            var bytes = new byte[preamble.Length + content.Length];
+
+            Buffer.BlockCopy(preamble, 0, bytes, 0, preamble.Length);
+            Buffer.BlockCopy(content, 0, bytes, preamble.Length, content.Length);
+
+            return File(bytes, "text/csv; charset=utf-8", "athletes-export.csv");
         }
 
         [HttpGet]
@@ -260,5 +301,33 @@ namespace Projekt_WEB.Areas.Admin.Controllers
 
             return "/images/athletes/" + fileName;
         }
+        private static string EscapeCsv(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return "";
+            }
+
+            var text = value.Replace("\"", "\"\"");
+
+            if (text.Contains(";") || text.Contains("\"") || text.Contains("\n") || text.Contains("\r"))
+            {
+                return "\"" + text + "\"";
+            }
+
+            return text;
+        }
+
+        private static string GetStatusName(AthleteStatus status)
+        {
+            return status switch
+            {
+                AthleteStatus.Active => "Aktywny",
+                AthleteStatus.Injured => "Kontuzjowany",
+                AthleteStatus.Retired => "Zakończył karierę",
+                _ => status.ToString()
+            };
+        }
     }
+
 }
