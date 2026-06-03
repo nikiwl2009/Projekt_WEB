@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Projekt_WEB.Models.Discipline>
+
+@{
+    ViewData["Title"] = "Admin - dyscypliny";
+}
+
+<section class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1>Dyscypliny - panel admina</h1>
+            <p class="text-muted">Zarządzanie dyscyplinami sportów zimowych.</p>
+        </div>
+
+        <a asp-area="Admin" asp-controller="Disciplines" asp-action="Create" class="btn btn-primary">
+            Dodaj dyscyplinę
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Brak dyscyplin w systemie.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Opis</th>
+                        <th>Zawodnicy</th>
+                        <th>Zawody</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var discipline in Model)
+                    {
+                        <tr>
+                            <td>@discipline.Name</td>
+                            <td>@discipline.Description</td>
+                            <td>@discipline.Athletes.Count</td>
+                            <td>@discipline.CompetitionEvents.Count</td>
+                            <td>
+                                <a asp-area="Admin"
+                                   asp-controller="Disciplines"
+                                   asp-action="Edit"
+                                   asp-route-id="@discipline.DisciplineId"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Edytuj
+                                </a>
+
+                                <a asp-area="Admin"
+                                   asp-controller="Disciplines"
+                                   asp-action="Delete"
+                                   asp-route-id="@discipline.DisciplineId"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Usuń
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

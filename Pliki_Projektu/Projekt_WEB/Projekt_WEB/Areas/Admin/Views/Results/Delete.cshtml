@@ -1,0 +1,49 @@
+﻿@model Projekt_WEB.Models.Result
+
+@{
+    ViewData["Title"] = "Usuń wynik";
+}
+
+<section class="container mt-4">
+    <h1>Usuń wynik</h1>
+
+    <div class="alert alert-warning">
+        Czy na pewno chcesz usunąć ten wynik?
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p>
+                <strong>Zawodnik:</strong>
+                @(Model.Athlete != null ? Model.Athlete.FirstName + " " + Model.Athlete.LastName : "-")
+            </p>
+
+            <p>
+                <strong>Zawody:</strong>
+                @(Model.CompetitionEvent != null ? Model.CompetitionEvent.Name : "-")
+            </p>
+
+            <p>
+                <strong>Data:</strong>
+                @(Model.CompetitionEvent != null ? Model.CompetitionEvent.EventDate.ToString("dd.MM.yyyy") : "-")
+            </p>
+
+            <p><strong>Miejsce:</strong> @Model.Place</p>
+            <p><strong>Punkty:</strong> @Model.Points</p>
+            <p><strong>Wynik:</strong> @Model.ScoreText</p>
+
+            <form asp-area="Admin"
+                  asp-controller="Results"
+                  asp-action="Delete"
+                  asp-route-id="@Model.ResultId"
+                  method="post">
+
+                <button type="submit" class="btn btn-danger">Usuń</button>
+
+                <a asp-area="Admin" asp-controller="Results" asp-action="Index" class="btn btn-outline-secondary">
+                    Anuluj
+                </a>
+            </form>
+        </div>
+    </div>
+</section>

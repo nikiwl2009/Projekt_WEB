@@ -1,0 +1,37 @@
+﻿@model Projekt_WEB.Models.Discipline
+
+@{
+    ViewData["Title"] = "Dodaj dyscyplinę";
+}
+
+<section class="container mt-4">
+    <h1>Dodaj dyscyplinę</h1>
+
+    <form asp-area="Admin" asp-controller="Disciplines" asp-action="Create" method="post" class="mt-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Zapisz</button>
+
+        <a asp-area="Admin" asp-controller="Disciplines" asp-action="Index" class="btn btn-outline-secondary">
+            Wróć
+        </a>
+    </form>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

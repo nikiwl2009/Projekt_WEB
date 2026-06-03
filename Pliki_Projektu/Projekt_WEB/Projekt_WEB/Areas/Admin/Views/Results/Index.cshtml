@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Projekt_WEB.Models.Result>
+
+@{
+    ViewData["Title"] = "Admin - wyniki";
+}
+
+<section class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1>Wyniki - panel admina</h1>
+            <p class="text-muted">Zarządzanie wynikami zawodników.</p>
+        </div>
+
+        <a asp-area="Admin" asp-controller="Results" asp-action="Create" class="btn btn-primary">
+            Dodaj wynik
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Brak wyników w systemie.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Zawodnik</th>
+                        <th>Zawody</th>
+                        <th>Data</th>
+                        <th>Dyscyplina</th>
+                        <th>Miejsce</th>
+                        <th>Punkty</th>
+                        <th>Wynik</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in Model)
+                    {
+                        <tr>
+                            <td>
+                                @(result.Athlete != null ? result.Athlete.FirstName + " " + result.Athlete.LastName : "-")
+                            </td>
+                            <td>@(result.CompetitionEvent != null ? result.CompetitionEvent.Name : "-")</td>
+                            <td>@(result.CompetitionEvent != null ? result.CompetitionEvent.EventDate.ToString("dd.MM.yyyy") : "-")</td>
+                            <td>@(result.CompetitionEvent?.Discipline != null ? result.CompetitionEvent.Discipline.Name : "-")</td>
+                            <td>@result.Place</td>
+                            <td>@result.Points</td>
+                            <td>@result.ScoreText</td>
+                            <td>
+                                <a asp-area="Admin"
+                                   asp-controller="Results"
+                                   asp-action="Edit"
+                                   asp-route-id="@result.ResultId"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Edytuj
+                                </a>
+
+                                <a asp-area="Admin"
+                                   asp-controller="Results"
+                                   asp-action="Delete"
+                                   asp-route-id="@result.ResultId"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Usuń
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

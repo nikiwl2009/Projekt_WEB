@@ -1,0 +1,67 @@
+﻿@model Projekt_WEB.Models.Result
+
+@{
+    ViewData["Title"] = "Edytuj wynik";
+}
+
+<section class="container mt-4">
+    <h1>Edytuj wynik</h1>
+
+    <form asp-area="Admin"
+          asp-controller="Results"
+          asp-action="Edit"
+          asp-route-id="@Model.ResultId"
+          method="post"
+          class="mt-3">
+
+        <input type="hidden" asp-for="ResultId" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="AthleteId" class="form-label"></label>
+            <select asp-for="AthleteId" class="form-select" asp-items="ViewBag.Athletes">
+                <option value="">Wybierz zawodnika</option>
+            </select>
+            <span asp-validation-for="AthleteId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CompetitionEventId" class="form-label"></label>
+            <select asp-for="CompetitionEventId" class="form-select" asp-items="ViewBag.CompetitionEvents">
+                <option value="">Wybierz zawody</option>
+            </select>
+            <span asp-validation-for="CompetitionEventId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Place" class="form-label"></label>
+            <input asp-for="Place" class="form-control" />
+            <span asp-validation-for="Place" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Points" class="form-label"></label>
+            <input asp-for="Points" class="form-control" />
+            <span asp-validation-for="Points" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ScoreText" class="form-label"></label>
+            <input asp-for="ScoreText" class="form-control" />
+            <span asp-validation-for="ScoreText" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+
+        <a asp-area="Admin" asp-controller="Results" asp-action="Index" class="btn btn-outline-secondary">
+            Wróć
+        </a>
+    </form>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
