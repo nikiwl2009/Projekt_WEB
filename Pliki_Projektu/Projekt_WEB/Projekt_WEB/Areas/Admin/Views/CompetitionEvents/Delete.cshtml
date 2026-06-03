@@ -1,0 +1,43 @@
+﻿@model Projekt_WEB.Models.CompetitionEvent
+
+@{
+    ViewData["Title"] = "Usuń zawody";
+}
+
+<section class="container mt-4">
+    <h1>Usuń zawody</h1>
+
+    <div class="alert alert-warning">
+        Czy na pewno chcesz usunąć te zawody?
+        Jeżeli zawody mają przypisane wyniki, usunięcie zostanie zablokowane.
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h4">@Model.Name</h2>
+
+            <p><strong>Data:</strong> @Model.EventDate.ToString("dd.MM.yyyy")</p>
+            <p><strong>Dyscyplina:</strong> @(Model.Discipline != null ? Model.Discipline.Name : "-")</p>
+            <p><strong>Miejsce:</strong> @Model.VenueName</p>
+            <p><strong>Miasto:</strong> @Model.City</p>
+            <p><strong>Kraj:</strong> @Model.Country</p>
+            <p><strong>Współrzędne:</strong> @Model.Latitude, @Model.Longitude</p>
+            <p><strong>Liczba wyników:</strong> @(Model.Results != null ? Model.Results.Count : 0)</p>
+
+            <form asp-area="Admin"
+                  asp-controller="CompetitionEvents"
+                  asp-action="Delete"
+                  asp-route-id="@Model.CompetitionEventId"
+                  method="post">
+
+                <button type="submit" class="btn btn-danger">
+                    Usuń
+                </button>
+
+                <a asp-area="Admin" asp-controller="CompetitionEvents" asp-action="Index" class="btn btn-outline-secondary">
+                    Anuluj
+                </a>
+            </form>
+        </div>
+    </div>
+</section>

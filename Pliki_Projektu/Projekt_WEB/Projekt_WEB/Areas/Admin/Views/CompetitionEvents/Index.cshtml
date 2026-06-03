@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Projekt_WEB.Models.CompetitionEvent>
+
+@{
+    ViewData["Title"] = "Admin - zawody";
+}
+
+<section class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1>Zawody - panel admina</h1>
+            <p class="text-muted">Zarządzanie wydarzeniami sportów zimowych i ich lokalizacjami.</p>
+        </div>
+
+        <a asp-area="Admin" asp-controller="CompetitionEvents" asp-action="Create" class="btn btn-primary">
+            Dodaj zawody
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Brak zawodów w systemie.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Data</th>
+                        <th>Dyscyplina</th>
+                        <th>Miejsce</th>
+                        <th>Miasto</th>
+                        <th>Kraj</th>
+                        <th>Współrzędne</th>
+                        <th>Wyniki</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var competitionEvent in Model)
+                    {
+                        <tr>
+                            <td>@competitionEvent.Name</td>
+                            <td>@competitionEvent.EventDate.ToString("dd.MM.yyyy")</td>
+                            <td>@(competitionEvent.Discipline != null ? competitionEvent.Discipline.Name : "-")</td>
+                            <td>@competitionEvent.VenueName</td>
+                            <td>@competitionEvent.City</td>
+                            <td>@competitionEvent.Country</td>
+                            <td>
+                                @if (competitionEvent.Latitude.HasValue && competitionEvent.Longitude.HasValue)
+                                {
+                                    <span>@competitionEvent.Latitude, @competitionEvent.Longitude</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Brak</span>
+                                }
+                            </td>
+                            <td>@competitionEvent.Results.Count</td>
+                            <td>
+                                <a asp-area="Admin"
+                                   asp-controller="CompetitionEvents"
+                                   asp-action="Edit"
+                                   asp-route-id="@competitionEvent.CompetitionEventId"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Edytuj
+                                </a>
+
+                                <a asp-area="Admin"
+                                   asp-controller="CompetitionEvents"
+                                   asp-action="Delete"
+                                   asp-route-id="@competitionEvent.CompetitionEventId"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Usuń
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

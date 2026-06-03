@@ -1,0 +1,91 @@
+﻿@model Projekt_WEB.Models.CompetitionEvent
+
+@{
+    ViewData["Title"] = "Edytuj zawody";
+}
+
+<section class="container mt-4">
+    <h1>Edytuj zawody</h1>
+
+    <form asp-area="Admin"
+          asp-controller="CompetitionEvents"
+          asp-action="Edit"
+          asp-route-id="@Model.CompetitionEventId"
+          method="post"
+          class="mt-3">
+
+        <input type="hidden" asp-for="CompetitionEventId" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="EventDate" class="form-label"></label>
+                <input asp-for="EventDate" type="date" class="form-control" />
+                <span asp-validation-for="EventDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="DisciplineId" class="form-label"></label>
+                <select asp-for="DisciplineId" class="form-select" asp-items="ViewBag.Disciplines">
+                    <option value="">Wybierz dyscyplinę</option>
+                </select>
+                <span asp-validation-for="DisciplineId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="VenueName" class="form-label"></label>
+                <input asp-for="VenueName" class="form-control" />
+                <span asp-validation-for="VenueName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="City" class="form-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Country" class="form-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Latitude" class="form-label"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Longitude" class="form-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-3">
+            Współrzędne służą później do wyświetlania zawodów na mapie.
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+
+            <a asp-area="Admin" asp-controller="CompetitionEvents" asp-action="Index" class="btn btn-outline-secondary">
+                Wróć
+            </a>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
