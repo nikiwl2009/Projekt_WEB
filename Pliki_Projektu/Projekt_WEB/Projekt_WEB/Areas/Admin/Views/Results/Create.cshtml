@@ -13,7 +13,7 @@
         <div class="mb-3">
             <label asp-for="AthleteId" class="form-label"></label>
             <select asp-for="AthleteId" class="form-select" asp-items="ViewBag.Athletes">
-                <option value="">Wybierz zawodnika</option>
+                <option value="0">Wybierz zawodnika</option>
             </select>
             <span asp-validation-for="AthleteId" class="text-danger"></span>
         </div>
@@ -21,7 +21,7 @@
         <div class="mb-3">
             <label asp-for="CompetitionEventId" class="form-label"></label>
             <select asp-for="CompetitionEventId" class="form-select" asp-items="ViewBag.CompetitionEvents">
-                <option value="">Wybierz zawody</option>
+                <option value="0">Wybierz zawody</option>
             </select>
             <span asp-validation-for="CompetitionEventId" class="text-danger"></span>
         </div>

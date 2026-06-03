@@ -44,7 +44,7 @@
             <div class="col-md-4">
                 <label asp-for="ClubId" class="form-label"></label>
                 <select asp-for="ClubId" class="form-select" asp-items="ViewBag.Clubs">
-                    <option value="">Wybierz klub</option>
+                    <option value="0">Wybierz klub</option>
                 </select>
                 <span asp-validation-for="ClubId" class="text-danger"></span>
             </div>
@@ -69,7 +69,7 @@
                 <select asp-for="DisciplineId"
                         class="form-select"
                         asp-items="ViewBag.Disciplines">
-                    <option value="">Wybierz dyscyplinę</option>
+                    <option value="0">Wybierz dyscyplinę</option>
                 </select>
                 <span asp-validation-for="DisciplineId" class="text-danger"></span>
             </div>
