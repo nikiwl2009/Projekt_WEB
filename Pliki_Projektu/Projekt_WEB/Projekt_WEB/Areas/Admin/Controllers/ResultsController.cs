@@ -152,24 +152,28 @@ namespace Projekt_WEB.Areas.Admin.Controllers
 
         private void LoadLists(int? selectedAthleteId = null, int? selectedCompetitionEventId = null)
         {
-            ViewBag.Athletes = new SelectList(
-                _context.Athletes
-                    .OrderBy(a => a.LastName)
-                    .ThenBy(a => a.FirstName)
-                    .ToList(),
-                "AthleteId",
-                "LastName",
-                selectedAthleteId
-            );
+            ViewBag.Athletes = _context.Athletes
+                .Include(a => a.Discipline)
+                .OrderBy(a => a.LastName)
+                .ThenBy(a => a.FirstName)
+                .Select(a => new SelectListItem
+                {
+                    Value = a.AthleteId.ToString(),
+                    Text = a.LastName + " " + a.FirstName + " — " + (a.Discipline != null ? a.Discipline.Name : "brak dyscypliny"),
+                    Selected = selectedAthleteId.HasValue && selectedAthleteId.Value == a.AthleteId
+                })
+                .ToList();
 
-            ViewBag.CompetitionEvents = new SelectList(
-                _context.CompetitionEvents
-                    .OrderBy(e => e.EventDate)
-                    .ToList(),
-                "CompetitionEventId",
-                "Name",
-                selectedCompetitionEventId
-            );
+            ViewBag.CompetitionEvents = _context.CompetitionEvents
+                .Include(e => e.Discipline)
+                .OrderBy(e => e.EventDate)
+                .Select(e => new SelectListItem
+                {
+                    Value = e.CompetitionEventId.ToString(),
+                    Text = e.Name + " — " + (e.Discipline != null ? e.Discipline.Name : "brak dyscypliny") + " — " + e.EventDate.ToString("dd.MM.yyyy"),
+                    Selected = selectedCompetitionEventId.HasValue && selectedCompetitionEventId.Value == e.CompetitionEventId
+                })
+                .ToList();
         }
 
         private void ValidateResultRelations(Result result)
@@ -182,6 +186,39 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             if (result.CompetitionEventId <= 0)
             {
                 ModelState.AddModelError(nameof(Result.CompetitionEventId), "Wybierz zawody.");
+            }
+
+            if (result.AthleteId <= 0 || result.CompetitionEventId <= 0)
+            {
+                return;
+            }
+
+            var athlete = _context.Athletes
+                .FirstOrDefault(a => a.AthleteId == result.AthleteId);
+
+            var competitionEvent = _context.CompetitionEvents
+                .FirstOrDefault(e => e.CompetitionEventId == result.CompetitionEventId);
+
+            if (athlete == null)
+            {
+                ModelState.AddModelError(nameof(Result.AthleteId), "Wybrany zawodnik nie istnieje.");
+
+                return;
+            }
+
+            if (competitionEvent == null)
+            {
+                ModelState.AddModelError(nameof(Result.CompetitionEventId), "Wybrane zawody nie istnieją.");
+
+                return;
+            }
+
+            if (athlete.DisciplineId != competitionEvent.DisciplineId)
+            {
+                ModelState.AddModelError(
+                    nameof(Result.CompetitionEventId),
+                    "Zawody muszą mieć tę samą dyscyplinę co zawodnik."
+                );
             }
         }
     }

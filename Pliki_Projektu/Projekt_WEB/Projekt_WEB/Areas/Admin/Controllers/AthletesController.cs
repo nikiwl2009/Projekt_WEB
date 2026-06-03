@@ -41,8 +41,11 @@ namespace Projekt_WEB.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [RequestSizeLimit(50 * 1024 * 1024)]
         public async Task<IActionResult> Create(Athlete athlete, IFormFile? photoFile)
         {
+            ValidatePhoto(photoFile);
+
             if (!ModelState.IsValid)
             {
                 LoadDisciplines(athlete.DisciplineId);
@@ -85,12 +88,15 @@ namespace Projekt_WEB.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [RequestSizeLimit(50 * 1024 * 1024)]
         public async Task<IActionResult> Edit(int id, Athlete athlete, IFormFile? photoFile)
         {
             if (id != athlete.AthleteId)
             {
                 return NotFound();
             }
+
+            ValidatePhoto(photoFile);
 
             if (!ModelState.IsValid)
             {
@@ -186,17 +192,52 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             );
         }
 
-        private async Task<string?> SavePhotoAsync(IFormFile? photoFile)
+        private void LoadClubs(int? selectedClubId = null)
         {
-            if (photoFile == null || photoFile.Length == 0)
+            ViewBag.Clubs = new SelectList(
+                _context.Clubs.OrderBy(c => c.Name).ToList(),
+                "ClubId",
+                "Name",
+                selectedClubId
+            );
+        }
+
+        private void ValidatePhoto(IFormFile? photoFile)
+        {
+            if (photoFile == null)
             {
-                return null;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(photoFile.FileName))
+            {
+                return;
             }
 
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
             var extension = Path.GetExtension(photoFile.FileName).ToLowerInvariant();
 
             if (!allowedExtensions.Contains(extension))
+            {
+                ModelState.AddModelError("photoFile", "Nieprawidłowy format pliku. Dozwolone formaty zdjęcia: JPG, JPEG, PNG, WEBP, GIF.");
+            }
+
+            if (photoFile.Length == 0)
+            {
+                ModelState.AddModelError("photoFile", "Wybrany plik jest pusty. Wybierz prawidłowe zdjęcie.");
+            }
+
+            var maxFileSize = 2 * 1024 * 1024;
+
+            if (photoFile.Length > maxFileSize)
+            {
+                ModelState.AddModelError("photoFile", "Zdjęcie może mieć maksymalnie 2 MB.");
+            }
+        }
+
+        private async Task<string?> SavePhotoAsync(IFormFile? photoFile)
+        {
+            if (photoFile == null || photoFile.Length == 0)
             {
                 return null;
             }
@@ -209,6 +250,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
 
             Directory.CreateDirectory(uploadsFolder);
 
+            var extension = Path.GetExtension(photoFile.FileName).ToLowerInvariant();
             var fileName = Guid.NewGuid() + extension;
             var filePath = Path.Combine(uploadsFolder, fileName);
 
@@ -217,15 +259,6 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             await photoFile.CopyToAsync(stream);
 
             return "/images/athletes/" + fileName;
-        }
-        private void LoadClubs(int? selectedClubId = null)
-        {
-            ViewBag.Clubs = new SelectList(
-                _context.Clubs.OrderBy(c => c.Name).ToList(),
-                "ClubId",
-                "Name",
-                selectedClubId
-            );
         }
     }
 }

@@ -76,7 +76,13 @@
 
             <div class="col-md-12">
                 <label for="photoFile" class="form-label">Zdjęcie zawodnika</label>
-                <input type="file" id="photoFile" name="photoFile" class="form-control" accept=".jpg,.jpeg,.png,.webp,.gif" />
+                <input type="file"
+                       id="photoFile"
+                       name="photoFile"
+                       class="form-control"
+                       accept=".jpg,.jpeg,.png,.webp,.gif" />
+                <span id="photoFileClientError" class="text-danger d-block"></span>
+                @Html.ValidationMessage("photoFile", "", new { @class = "text-danger d-block" })
             </div>
         </div>
 
@@ -97,4 +103,50 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        const form = document.querySelector("form");
+        const photoInput = document.getElementById("photoFile");
+        const photoError = document.getElementById("photoFileClientError");
+
+        if (form && photoInput && photoError)
+        {
+            form.addEventListener("submit", function (event)
+            {
+                photoError.textContent = "";
+
+                if (!photoInput.files || photoInput.files.length === 0)
+                {
+                    return;
+                }
+
+                const file = photoInput.files[0];
+                const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
+                const maxFileSize = 2 * 1024 * 1024;
+                const fileName = file.name.toLowerCase();
+                const fileExtension = fileName.substring(fileName.lastIndexOf("."));
+
+                if (!allowedExtensions.includes(fileExtension))
+                {
+                    event.preventDefault();
+                    photoError.textContent = "Nieprawidłowy format pliku. Dozwolone formaty zdjęcia: JPG, JPEG, PNG, WEBP, GIF.";
+                    return;
+                }
+
+                if (file.size === 0)
+                {
+                    event.preventDefault();
+                    photoError.textContent = "Wybrany plik jest pusty. Wybierz prawidłowe zdjęcie.";
+                    return;
+                }
+
+                if (file.size > maxFileSize)
+                {
+                    event.preventDefault();
+                    photoError.textContent = "Zdjęcie może mieć maksymalnie 2 MB.";
+                    return;
+                }
+            });
+        }
+    </script>
 }

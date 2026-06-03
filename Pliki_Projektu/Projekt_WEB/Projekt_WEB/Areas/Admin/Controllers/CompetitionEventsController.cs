@@ -178,6 +178,20 @@ namespace Projekt_WEB.Areas.Admin.Controllers
                 ModelState.AddModelError(nameof(CompetitionEvent.DisciplineId), "Wybierz dyscyplinę.");
             }
 
+            var minDate = new DateTime(2000, 1, 1);
+            var maxDate = new DateTime(2100, 12, 31);
+
+            if (competitionEvent.EventDate < minDate || competitionEvent.EventDate > maxDate)
+            {
+                ModelState.AddModelError(nameof(CompetitionEvent.EventDate), "Data zawodów musi być w zakresie od 2000 do 2100 roku.");
+            }
+
+            if (competitionEvent.Latitude.HasValue != competitionEvent.Longitude.HasValue)
+            {
+                ModelState.AddModelError(nameof(CompetitionEvent.Latitude), "Podaj jednocześnie szerokość i długość geograficzną.");
+                ModelState.AddModelError(nameof(CompetitionEvent.Longitude), "Podaj jednocześnie szerokość i długość geograficzną.");
+            }
+
             if (competitionEvent.Latitude.HasValue && (competitionEvent.Latitude < -90 || competitionEvent.Latitude > 90))
             {
                 ModelState.AddModelError(nameof(CompetitionEvent.Latitude), "Szerokość geograficzna musi być w zakresie od -90 do 90.");
