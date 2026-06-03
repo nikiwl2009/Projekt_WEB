@@ -18,7 +18,7 @@
 
             <p><strong>Dyscyplina:</strong> @(Model.Discipline != null ? Model.Discipline.Name : "-")</p>
             <p><strong>Kraj:</strong> @Model.Country</p>
-            <p><strong>Klub:</strong> @Model.Club</p>
+            <p><strong>Klub:</strong> @(Model.Club != null ? Model.Club.Name : "-")</p>
             <p><strong>Punkty:</strong> @Model.Points</p>
             <p><strong>Liczba wyników:</strong> @(Model.Results != null ? Model.Results.Count : 0)</p>
 

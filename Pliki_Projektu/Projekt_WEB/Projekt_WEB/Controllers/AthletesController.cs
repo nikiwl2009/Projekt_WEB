@@ -21,6 +21,7 @@ namespace Projekt_WEB.Controllers
         {
             var athletesQuery = _context.Athletes
                 .Include(a => a.Discipline)
+                .Include(a => a.Club)
                 .AsQueryable();
 
             if (disciplineId.HasValue && disciplineId.Value > 0)
@@ -39,7 +40,7 @@ namespace Projekt_WEB.Controllers
                         a.FirstName + " " +
                         a.LastName + " " +
                         a.Country + " " +
-                        a.Club + " " +
+                        (a.Club != null ? a.Club.Name : "") + " " +
                         (a.Discipline != null ? a.Discipline.Name : "")
                     ).Contains(searchText))
                     .ToList();
@@ -73,6 +74,7 @@ namespace Projekt_WEB.Controllers
         {
             var athlete = _context.Athletes
                 .Include(a => a.Discipline)
+                .Include(a => a.Club)
                 .Include(a => a.Results)
                     .ThenInclude(r => r.CompetitionEvent)
                         .ThenInclude(e => e.Discipline)

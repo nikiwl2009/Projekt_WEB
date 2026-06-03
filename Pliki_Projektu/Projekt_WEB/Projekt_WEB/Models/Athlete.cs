@@ -21,9 +21,6 @@ namespace Projekt_WEB.Models
         [Display(Name = "Kraj")]
         public string Country { get; set; } = string.Empty;
 
-        [Display(Name = "Klub")]
-        public string Club { get; set; } = string.Empty;
-
         [Display(Name = "Punkty")]
         public int Points { get; set; }
 
@@ -37,6 +34,11 @@ namespace Projekt_WEB.Models
         public int DisciplineId { get; set; }
 
         public Discipline? Discipline { get; set; }
+
+        [Display(Name = "Klub")]
+        public int ClubId { get; set; }
+
+        public Club? Club { get; set; }
 
         public List<Result> Results { get; set; } = new List<Result>();
     }

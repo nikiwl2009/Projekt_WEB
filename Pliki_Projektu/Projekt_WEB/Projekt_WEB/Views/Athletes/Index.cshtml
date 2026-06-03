@@ -68,7 +68,7 @@
                                         </h2>
 
                                         <p class="text-muted mb-2">
-                                            @athlete.Country · @athlete.Club
+                                            @athlete.Country · @(athlete.Club != null ? athlete.Club.Name : "Brak klubu")
                                         </p>
                                     </div>
 

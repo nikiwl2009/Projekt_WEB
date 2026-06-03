@@ -22,6 +22,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
         {
             var athletes = await _context.Athletes
                 .Include(a => a.Discipline)
+                .Include(a => a.Club)
                 .OrderBy(a => a.LastName)
                 .ThenBy(a => a.FirstName)
                 .ToListAsync();
@@ -33,6 +34,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
         public IActionResult Create()
         {
             LoadDisciplines();
+            LoadClubs();
 
             return View(new Athlete());
         }
@@ -44,6 +46,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 LoadDisciplines(athlete.DisciplineId);
+                LoadClubs(athlete.ClubId);
 
                 return View(athlete);
             }
@@ -75,6 +78,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             }
 
             LoadDisciplines(athlete.DisciplineId);
+            LoadClubs(athlete.ClubId);
 
             return View(athlete);
         }
@@ -91,6 +95,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 LoadDisciplines(athlete.DisciplineId);
+                LoadClubs(athlete.ClubId);
 
                 return View(athlete);
             }
@@ -107,7 +112,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             athleteFromDatabase.LastName = athlete.LastName;
             athleteFromDatabase.Age = athlete.Age;
             athleteFromDatabase.Country = athlete.Country;
-            athleteFromDatabase.Club = athlete.Club;
+            athleteFromDatabase.ClubId = athlete.ClubId;
             athleteFromDatabase.Points = athlete.Points;
             athleteFromDatabase.Status = athlete.Status;
             athleteFromDatabase.DisciplineId = athlete.DisciplineId;
@@ -131,6 +136,7 @@ namespace Projekt_WEB.Areas.Admin.Controllers
         {
             var athlete = await _context.Athletes
                 .Include(a => a.Discipline)
+                .Include(a => a.Club)
                 .Include(a => a.Results)
                 .FirstOrDefaultAsync(a => a.AthleteId == id);
 
@@ -211,6 +217,15 @@ namespace Projekt_WEB.Areas.Admin.Controllers
             await photoFile.CopyToAsync(stream);
 
             return "/images/athletes/" + fileName;
+        }
+        private void LoadClubs(int? selectedClubId = null)
+        {
+            ViewBag.Clubs = new SelectList(
+                _context.Clubs.OrderBy(c => c.Name).ToList(),
+                "ClubId",
+                "Name",
+                selectedClubId
+            );
         }
     }
 }

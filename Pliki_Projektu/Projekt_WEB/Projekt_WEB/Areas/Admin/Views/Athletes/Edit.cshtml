@@ -45,9 +45,11 @@
             </div>
 
             <div class="col-md-4">
-                <label asp-for="Club" class="form-label"></label>
-                <input asp-for="Club" class="form-control" />
-                <span asp-validation-for="Club" class="text-danger"></span>
+                <label asp-for="ClubId" class="form-label"></label>
+                <select asp-for="ClubId" class="form-select" asp-items="ViewBag.Clubs">
+                    <option value="">Wybierz klub</option>
+                </select>
+                <span asp-validation-for="ClubId" class="text-danger"></span>
             </div>
 
             <div class="col-md-4">

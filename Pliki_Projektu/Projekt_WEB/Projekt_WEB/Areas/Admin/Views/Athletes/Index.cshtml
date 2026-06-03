@@ -73,7 +73,7 @@
                             <td>@athlete.FirstName @athlete.LastName</td>
                             <td>@(athlete.Discipline != null ? athlete.Discipline.Name : "-")</td>
                             <td>@athlete.Country</td>
-                            <td>@athlete.Club</td>
+                            <td>@(athlete.Club != null ? athlete.Club.Name : "-")</td>
                             <td>@athlete.Age</td>
                             <td>@athlete.Points</td>
                             <td>@athlete.Status</td>

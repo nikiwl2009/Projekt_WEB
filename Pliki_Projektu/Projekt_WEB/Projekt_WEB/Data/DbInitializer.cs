@@ -58,13 +58,126 @@ namespace Projekt_WEB.Data
 
             context.SaveChanges();
 
+            var ksTatry = new Club
+            {
+                Name = "KS Tatry Zakopane",
+                City = "Zakopane",
+                Country = "Polska",
+                Description = "Klub specjalizujący się w narciarstwie alpejskim i szkoleniu zawodników z regionu Tatr."
+            };
+
+            var azsWinter = new Club
+            {
+                Name = "AZS Winter Team",
+                City = "Kraków",
+                Country = "Polska",
+                Description = "Akademicki klub sportów zimowych skupiający zawodników różnych dyscyplin."
+            };
+
+            var tirolAlpine = new Club
+            {
+                Name = "Tirol Alpine Club",
+                City = "Innsbruck",
+                Country = "Austria",
+                Description = "Austriacki klub narciarski z mocnym zapleczem szkoleniowym w konkurencjach alpejskich."
+            };
+
+            var osloJump = new Club
+            {
+                Name = "Oslo Jump Team",
+                City = "Oslo",
+                Country = "Norwegia",
+                Description = "Norweski klub skoków narciarskich związany z tradycją Holmenkollen."
+            };
+
+            var wislaJump = new Club
+            {
+                Name = "Wisła Ski Jump",
+                City = "Wisła",
+                Country = "Polska",
+                Description = "Polski klub skoków narciarskich rozwijający zawodników z południa kraju."
+            };
+
+            var bavariaBiathlon = new Club
+            {
+                Name = "Bavaria Biathlon",
+                City = "Ruhpolding",
+                Country = "Niemcy",
+                Description = "Niemiecki klub biathlonowy nastawiony na konkurencje biegowe i strzeleckie."
+            };
+
+            var podhaleNordic = new Club
+            {
+                Name = "Podhale Nordic",
+                City = "Nowy Targ",
+                Country = "Polska",
+                Description = "Klub rozwijający narciarstwo biegowe i biathlon w regionie Podhala."
+            };
+
+            var snowboardBeskidy = new Club
+            {
+                Name = "Snowboard Beskidy",
+                City = "Szczyrk",
+                Country = "Polska",
+                Description = "Klub snowboardowy działający w Beskidach, nastawiony na freestyle i big air."
+            };
+
+            var dolomitiSnow = new Club
+            {
+                Name = "Dolomiti Snow Team",
+                City = "Cortina d'Ampezzo",
+                Country = "Włochy",
+                Description = "Włoski klub sportów zimowych z bazą treningową w Dolomitach."
+            };
+
+            var aspenFreestyle = new Club
+            {
+                Name = "Aspen Freestyle Crew",
+                City = "Aspen",
+                Country = "USA",
+                Description = "Klub freestyle z USA skupiający zawodników konkurencji akrobatycznych."
+            };
+
+            var freestyleKrakow = new Club
+            {
+                Name = "Freestyle Kraków",
+                City = "Kraków",
+                Country = "Polska",
+                Description = "Polski klub freestyle prowadzący zawodników w narciarstwie dowolnym."
+            };
+
+            var bialoCzerwoni = new Club
+            {
+                Name = "Biało-Czerwoni Winter Team",
+                City = "Warszawa",
+                Country = "Polska",
+                Description = "Klub zrzeszający doświadczonych zawodników sportów zimowych."
+            };
+
+            context.Clubs.AddRange(
+                ksTatry,
+                azsWinter,
+                tirolAlpine,
+                osloJump,
+                wislaJump,
+                bavariaBiathlon,
+                podhaleNordic,
+                snowboardBeskidy,
+                dolomitiSnow,
+                aspenFreestyle,
+                freestyleKrakow,
+                bialoCzerwoni
+            );
+
+            context.SaveChanges();
+
             var zawodnik1 = new Athlete
             {
                 FirstName = "Mika",
                 LastName = "Kowalczyk",
                 Age = 23,
                 Country = "Polska",
-                Club = "KS Tatry Zakopane",
+                ClubId = ksTatry.ClubId,
                 Points = 420,
                 Status = AthleteStatus.Active,
                 DisciplineId = narciarstwoAlpejskie.DisciplineId,
@@ -77,7 +190,7 @@ namespace Projekt_WEB.Data
                 LastName = "Nowak",
                 Age = 27,
                 Country = "Polska",
-                Club = "AZS Winter Team",
+                ClubId = azsWinter.ClubId,
                 Points = 365,
                 Status = AthleteStatus.Active,
                 DisciplineId = narciarstwoAlpejskie.DisciplineId,
@@ -90,7 +203,7 @@ namespace Projekt_WEB.Data
                 LastName = "Leitner",
                 Age = 24,
                 Country = "Austria",
-                Club = "Tirol Alpine Club",
+                ClubId = tirolAlpine.ClubId,
                 Points = 455,
                 Status = AthleteStatus.Active,
                 DisciplineId = narciarstwoAlpejskie.DisciplineId,
@@ -103,7 +216,7 @@ namespace Projekt_WEB.Data
                 LastName = "Berg",
                 Age = 29,
                 Country = "Norwegia",
-                Club = "Oslo Jump Team",
+                ClubId = osloJump.ClubId,
                 Points = 510,
                 Status = AthleteStatus.Active,
                 DisciplineId = skokiNarciarskie.DisciplineId,
@@ -116,7 +229,7 @@ namespace Projekt_WEB.Data
                 LastName = "Malec",
                 Age = 25,
                 Country = "Polska",
-                Club = "Wisła Ski Jump",
+                ClubId = wislaJump.ClubId,
                 Points = 398,
                 Status = AthleteStatus.Active,
                 DisciplineId = skokiNarciarskie.DisciplineId,
@@ -129,7 +242,7 @@ namespace Projekt_WEB.Data
                 LastName = "Hoffmann",
                 Age = 28,
                 Country = "Niemcy",
-                Club = "Bavaria Biathlon",
+                ClubId = bavariaBiathlon.ClubId,
                 Points = 475,
                 Status = AthleteStatus.Active,
                 DisciplineId = biathlon.DisciplineId,
@@ -142,7 +255,7 @@ namespace Projekt_WEB.Data
                 LastName = "Wiśniewska",
                 Age = 22,
                 Country = "Polska",
-                Club = "Podhale Nordic",
+                ClubId = podhaleNordic.ClubId,
                 Points = 312,
                 Status = AthleteStatus.Active,
                 DisciplineId = biathlon.DisciplineId,
@@ -155,7 +268,7 @@ namespace Projekt_WEB.Data
                 LastName = "Wrona",
                 Age = 21,
                 Country = "Polska",
-                Club = "Snowboard Beskidy",
+                ClubId = snowboardBeskidy.ClubId,
                 Points = 290,
                 Status = AthleteStatus.Active,
                 DisciplineId = snowboard.DisciplineId,
@@ -168,7 +281,7 @@ namespace Projekt_WEB.Data
                 LastName = "Rossi",
                 Age = 26,
                 Country = "Włochy",
-                Club = "Dolomiti Snow Team",
+                ClubId = dolomitiSnow.ClubId,
                 Points = 438,
                 Status = AthleteStatus.Active,
                 DisciplineId = snowboard.DisciplineId,
@@ -181,7 +294,7 @@ namespace Projekt_WEB.Data
                 LastName = "Smith",
                 Age = 24,
                 Country = "Kanada",
-                Club = "Aspen Freestyle Crew",
+                ClubId = aspenFreestyle.ClubId,
                 Points = 401,
                 Status = AthleteStatus.Active,
                 DisciplineId = freestyle.DisciplineId,
@@ -194,7 +307,7 @@ namespace Projekt_WEB.Data
                 LastName = "Krawiec",
                 Age = 20,
                 Country = "Polska",
-                Club = "Freestyle Kraków",
+                ClubId = freestyleKrakow.ClubId,
                 Points = 276,
                 Status = AthleteStatus.Injured,
                 DisciplineId = freestyle.DisciplineId,
@@ -207,7 +320,7 @@ namespace Projekt_WEB.Data
                 LastName = "Baran",
                 Age = 31,
                 Country = "Polska",
-                Club = "Biało-Czerwoni Winter Team",
+                ClubId = bialoCzerwoni.ClubId,
                 Points = 220,
                 Status = AthleteStatus.Retired,
                 DisciplineId = skokiNarciarskie.DisciplineId,
@@ -492,13 +605,13 @@ namespace Projekt_WEB.Data
                 {
                     Key = "home.hero",
                     Title = "System zarządzania zawodnikami sportów zimowych",
-                    Body = "Aplikacja webowa do przeglądania zawodników, dyscyplin, wyników i wydarzeń sportów zimowych."
+                    Body = "Aplikacja webowa do przeglądania zawodników, dyscyplin, wyników, klubów i wydarzeń sportów zimowych."
                 },
                 new PageContent
                 {
                     Key = "home.about",
                     Title = "O projekcie",
-                    Body = "Projekt powstał jako webowa wersja wcześniejszej aplikacji WPF. Celem jest wygodne zarządzanie zawodnikami, wynikami i wydarzeniami."
+                    Body = "Projekt powstał jako webowa wersja wcześniejszej aplikacji WPF. Celem jest wygodne zarządzanie zawodnikami, klubami, wynikami i wydarzeniami."
                 },
                 new PageContent
                 {

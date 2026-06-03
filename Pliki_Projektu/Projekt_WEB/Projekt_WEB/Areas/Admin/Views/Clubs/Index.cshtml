@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Projekt_WEB.Models.Club>
+
+@{
+    ViewData["Title"] = "Admin - kluby";
+}
+
+<section class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1>Kluby - panel admina</h1>
+            <p class="text-muted">Zarządzanie klubami zawodników.</p>
+        </div>
+
+        <a asp-area="Admin" asp-controller="Clubs" asp-action="Create" class="btn btn-primary">
+            Dodaj klub
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Brak klubów w systemie.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Miasto</th>
+                        <th>Kraj</th>
+                        <th>Zawodnicy</th>
+                        <th>Łączne punkty</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var club in Model)
+                    {
+                        <tr>
+                            <td>@club.Name</td>
+                            <td>@club.City</td>
+                            <td>@club.Country</td>
+                            <td>@club.Athletes.Count</td>
+                            <td>@club.Athletes.Sum(a => a.Points)</td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="Clubs" asp-action="Edit" asp-route-id="@club.ClubId" class="btn btn-sm btn-outline-primary">
+                                    Edytuj
+                                </a>
+
+                                <a asp-area="Admin" asp-controller="Clubs" asp-action="Delete" asp-route-id="@club.ClubId" class="btn btn-sm btn-outline-danger">
+                                    Usuń
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

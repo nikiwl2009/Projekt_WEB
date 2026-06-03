@@ -21,5 +21,9 @@ namespace Projekt_WEB.Data
         public DbSet<PageContent> PageContents { get; set; }
 
         public DbSet<AdminUser> AdminUsers { get; set; }
+
+        public DbSet<Club> Clubs { get; set; }
+
+
     }
 }

@@ -1,0 +1,129 @@
+﻿@model Projekt_WEB.Models.Club
+
+@{
+    ViewData["Title"] = "Szczegóły klubu";
+    var topAthletes = Model.Athletes
+        .OrderByDescending(a => a.Points)
+        .Take(3)
+        .ToList();
+}
+
+<section class="container mt-4">
+    <a asp-action="Index" class="btn btn-outline-secondary mb-3">
+        ← Powrót do klubów
+    </a>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h1>@Model.Name</h1>
+
+            <p class="text-muted">
+                @Model.City, @Model.Country
+            </p>
+
+            <p>@Model.Description</p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Liczba zawodników:</strong><br />
+                    @Model.Athletes.Count
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Łączne punkty:</strong><br />
+                    @Model.Athletes.Sum(a => a.Points)
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Najlepszy zawodnik:</strong><br />
+                    @(topAthletes.Any() ? topAthletes.First().FirstName + " " + topAthletes.First().LastName : "Brak danych")
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="h4 mb-3">Najlepsi zawodnicy</h2>
+
+    @if (!topAthletes.Any())
+    {
+        <div class="alert alert-info">
+            Ten klub nie ma jeszcze zawodników.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4 mb-4">
+            @foreach (var athlete in topAthletes)
+            {
+                <div class="col-md-4">
+                    <article class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="h5">@athlete.FirstName @athlete.LastName</h3>
+
+                            <p class="text-muted">
+                                @(athlete.Discipline != null ? athlete.Discipline.Name : "Brak dyscypliny")
+                            </p>
+
+                            <p>
+                                <strong>Punkty:</strong> @athlete.Points
+                            </p>
+
+                            <a asp-controller="Athletes"
+                               asp-action="Details"
+                               asp-route-id="@athlete.AthleteId"
+                               class="btn btn-outline-primary">
+                                Karta zawodnika
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    }
+
+    <h2 class="h4 mb-3">Wszyscy zawodnicy klubu</h2>
+
+    @if (!Model.Athletes.Any())
+    {
+        <div class="alert alert-info">
+            Brak zawodników w tym klubie.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Zawodnik</th>
+                        <th>Dyscyplina</th>
+                        <th>Kraj</th>
+                        <th>Punkty</th>
+                        <th>Status</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var athlete in Model.Athletes.OrderByDescending(a => a.Points))
+                    {
+                        <tr>
+                            <td>@athlete.FirstName @athlete.LastName</td>
+                            <td>@(athlete.Discipline != null ? athlete.Discipline.Name : "-")</td>
+                            <td>@athlete.Country</td>
+                            <td>@athlete.Points</td>
+                            <td>@athlete.Status</td>
+                            <td>
+                                <a asp-controller="Athletes"
+                                   asp-action="Details"
+                                   asp-route-id="@athlete.AthleteId"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Szczegóły
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
