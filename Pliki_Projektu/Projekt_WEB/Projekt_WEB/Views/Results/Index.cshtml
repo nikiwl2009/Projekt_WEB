@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Projekt_WEB.Models.Result>
+
+@{
+    ViewData["Title"] = "Wyniki";
+}
+
+<section class="container mt-4">
+    <div class="mb-4">
+        <h1>Wyniki zawodów</h1>
+        <p class="text-muted">
+            Publiczny podgląd wyników zawodników w zawodach sportów zimowych.
+        </p>
+    </div>
+
+    <form asp-action="Index" method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label for="disciplineId" class="form-label">Dyscyplina</label>
+            <select id="disciplineId" name="disciplineId" class="form-select" asp-items="ViewBag.Disciplines">
+                <option value="">Wszystkie dyscypliny</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="eventId" class="form-label">Zawody</label>
+            <select id="eventId" name="eventId" class="form-select" asp-items="ViewBag.Events">
+                <option value="">Wszystkie zawody</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="sort" class="form-label">Sortowanie</label>
+            <select id="sort" name="sort" class="form-select">
+                <option value="">Data rosnąco + miejsce</option>
+                <option value="date_desc">Data malejąco</option>
+                <option value="date_asc">Data rosnąco</option>
+                <option value="place_desc">Miejsce malejąco</option>
+                <option value="points_desc">Punkty malejąco</option>
+                <option value="points_asc">Punkty rosnąco</option>
+            </select>
+        </div>
+
+        <div class="col-md-1 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">OK</button>
+        </div>
+    </form>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Brak wyników spełniających wybrane kryteria.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Zawodnik</th>
+                        <th>Zawody</th>
+                        <th>Data</th>
+                        <th>Miejsce zawodów</th>
+                        <th>Dyscyplina</th>
+                        <th>Miejsce</th>
+                        <th>Punkty</th>
+                        <th>Wynik</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (result.Athlete != null)
+                                {
+                                    <a asp-controller="Athletes"
+                                       asp-action="Details"
+                                       asp-route-id="@result.Athlete.AthleteId">
+                                        @result.Athlete.FirstName @result.Athlete.LastName
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span>Brak danych</span>
+                                }
+                            </td>
+
+                            <td>
+                                @(result.CompetitionEvent != null ? result.CompetitionEvent.Name : "Brak danych")
+                            </td>
+
+                            <td>
+                                @(result.CompetitionEvent != null ? result.CompetitionEvent.EventDate.ToString("dd.MM.yyyy") : "-")
+                            </td>
+
+                            <td>
+                                @if (result.CompetitionEvent != null)
+                                {
+                                    <span>
+                                        @result.CompetitionEvent.VenueName,
+                                        @result.CompetitionEvent.City,
+                                        @result.CompetitionEvent.Country
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+
+                            <td>
+                                @(result.CompetitionEvent?.Discipline != null ? result.CompetitionEvent.Discipline.Name : "-")
+                            </td>
+
+                            <td>@result.Place</td>
+                            <td>@result.Points</td>
+                            <td>@result.ScoreText</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+<script>
+    const sortSelect = document.getElementById("sort");
+
+    if (sortSelect)
+    {
+        sortSelect.value = "@ViewBag.Sort";
+    }
+</script>

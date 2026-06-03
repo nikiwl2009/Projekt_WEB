@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Projekt_WEB.Models.Discipline>
+
+@{
+    ViewData["Title"] = "Dyscypliny";
+}
+
+<section class="container mt-4">
+    <div class="mb-4">
+        <h1>Dyscypliny</h1>
+        <p class="text-muted">
+            Przegląd dyscyplin sportów zimowych dostępnych w systemie.
+        </p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Brak dyscyplin do wyświetlenia.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var discipline in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <article class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h2 class="h5">@discipline.Name</h2>
+
+                            <p class="text-muted">
+                                @discipline.Description
+                            </p>
+
+                            <div class="d-flex justify-content-between mt-3">
+                                <span class="badge bg-primary">
+                                    Zawodnicy: @discipline.Athletes.Count
+                                </span>
+
+                                <span class="badge bg-secondary">
+                                    Zawody: @discipline.CompetitionEvents.Count
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    }
+</section>
