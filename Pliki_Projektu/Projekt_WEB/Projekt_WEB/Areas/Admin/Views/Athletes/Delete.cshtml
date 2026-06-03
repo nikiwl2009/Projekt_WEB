@@ -1,0 +1,44 @@
+﻿@model Projekt_WEB.Models.Athlete
+
+@{
+    ViewData["Title"] = "Usuń zawodnika";
+}
+
+<section class="container mt-4">
+    <h1>Usuń zawodnika</h1>
+
+    <div class="alert alert-warning">
+        Czy na pewno chcesz usunąć tego zawodnika?
+        Jeżeli zawodnik ma zapisane wyniki, usunięcie zostanie zablokowane.
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h4">@Model.FirstName @Model.LastName</h2>
+
+            <p><strong>Dyscyplina:</strong> @(Model.Discipline != null ? Model.Discipline.Name : "-")</p>
+            <p><strong>Kraj:</strong> @Model.Country</p>
+            <p><strong>Klub:</strong> @Model.Club</p>
+            <p><strong>Punkty:</strong> @Model.Points</p>
+            <p><strong>Liczba wyników:</strong> @(Model.Results != null ? Model.Results.Count : 0)</p>
+
+            <form asp-area="Admin"
+                  asp-controller="Athletes"
+                  asp-action="Delete"
+                  asp-route-id="@Model.AthleteId"
+                  method="post">
+
+                <button type="submit" class="btn btn-danger">
+                    Usuń
+                </button>
+
+                <a asp-area="Admin"
+                   asp-controller="Athletes"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Anuluj
+                </a>
+            </form>
+        </div>
+    </div>
+</section>

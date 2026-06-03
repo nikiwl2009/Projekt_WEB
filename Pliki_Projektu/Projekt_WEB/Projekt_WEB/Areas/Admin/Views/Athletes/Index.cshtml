@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Projekt_WEB.Models.Athlete>
+
+@{
+    ViewData["Title"] = "Admin - zawodnicy";
+}
+
+<section class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1>Zawodnicy - panel admina</h1>
+            <p class="text-muted">Zarządzanie zawodnikami zapisanymi w systemie.</p>
+        </div>
+
+        <a asp-area="Admin" asp-controller="Athletes" asp-action="Create" class="btn btn-primary">
+            Dodaj zawodnika
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Brak zawodników w systemie.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Zdjęcie</th>
+                        <th>Imię i nazwisko</th>
+                        <th>Dyscyplina</th>
+                        <th>Kraj</th>
+                        <th>Klub</th>
+                        <th>Wiek</th>
+                        <th>Punkty</th>
+                        <th>Status</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var athlete in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(athlete.PhotoPath))
+                                {
+                                    <img src="@athlete.PhotoPath"
+                                         alt="Zdjęcie zawodnika @athlete.FirstName @athlete.LastName"
+                                         style="width: 56px; height: 56px; object-fit: cover;"
+                                         class="rounded" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Brak</span>
+                                }
+                            </td>
+                            <td>@athlete.FirstName @athlete.LastName</td>
+                            <td>@(athlete.Discipline != null ? athlete.Discipline.Name : "-")</td>
+                            <td>@athlete.Country</td>
+                            <td>@athlete.Club</td>
+                            <td>@athlete.Age</td>
+                            <td>@athlete.Points</td>
+                            <td>@athlete.Status</td>
+                            <td>
+                                <a asp-area="Admin"
+                                   asp-controller="Athletes"
+                                   asp-action="Edit"
+                                   asp-route-id="@athlete.AthleteId"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Edytuj
+                                </a>
+
+                                <a asp-area="Admin"
+                                   asp-controller="Athletes"
+                                   asp-action="Delete"
+                                   asp-route-id="@athlete.AthleteId"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Usuń
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

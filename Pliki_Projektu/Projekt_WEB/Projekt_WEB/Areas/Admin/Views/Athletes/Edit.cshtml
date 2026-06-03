@@ -1,0 +1,112 @@
+﻿@model Projekt_WEB.Models.Athlete
+
+@{
+    ViewData["Title"] = "Edytuj zawodnika";
+}
+
+<section class="container mt-4">
+    <h1>Edytuj zawodnika</h1>
+
+    <form asp-area="Admin"
+          asp-controller="Athletes"
+          asp-action="Edit"
+          asp-route-id="@Model.AthleteId"
+          method="post"
+          enctype="multipart/form-data"
+          class="mt-3">
+
+        <input type="hidden" asp-for="AthleteId" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Age" class="form-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Country" class="form-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Club" class="form-label"></label>
+                <input asp-for="Club" class="form-control" />
+                <span asp-validation-for="Club" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Points" class="form-label"></label>
+                <input asp-for="Points" class="form-control" />
+                <span asp-validation-for="Points" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status"
+                        class="form-select"
+                        asp-items="Html.GetEnumSelectList<Projekt_WEB.Models.AthleteStatus>()">
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="DisciplineId" class="form-label"></label>
+                <select asp-for="DisciplineId"
+                        class="form-select"
+                        asp-items="ViewBag.Disciplines">
+                    <option value="">Wybierz dyscyplinę</option>
+                </select>
+                <span asp-validation-for="DisciplineId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-12">
+                @if (!string.IsNullOrWhiteSpace(Model.PhotoPath))
+                {
+                    <div class="mb-2">
+                        <p class="mb-1">Aktualne zdjęcie:</p>
+                        <img src="@Model.PhotoPath"
+                             alt="Zdjęcie zawodnika @Model.FirstName @Model.LastName"
+                             style="max-height: 120px;"
+                             class="rounded" />
+                    </div>
+                }
+
+                <label for="photoFile" class="form-label">Nowe zdjęcie</label>
+                <input type="file" id="photoFile" name="photoFile" class="form-control" accept=".jpg,.jpeg,.png,.webp,.gif" />
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+
+            <a asp-area="Admin"
+               asp-controller="Athletes"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Wróć
+            </a>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
