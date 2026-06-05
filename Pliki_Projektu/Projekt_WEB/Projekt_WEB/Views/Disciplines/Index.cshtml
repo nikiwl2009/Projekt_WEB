@@ -2,48 +2,56 @@
 
 @{
     ViewData["Title"] = "Dyscypliny";
+
+    // Tablica kolorów dla górnych pasków na kartach
+    var colors = new[] { "var(--ice)", "var(--blue)", "var(--gold)", "var(--red)" };
+    int colorIndex = 0;
 }
 
-<section class="container mt-4">
-    <div class="mb-4">
+<section class="section-block reveal">
+    <div style="margin-bottom: 2rem;">
+        <span class="eyebrow">Kategorie sportowe</span>
         <h1>Dyscypliny</h1>
-        <p class="text-muted">
-            Przegląd dyscyplin sportów zimowych dostępnych w systemie.
+        <p class="hero-copy">
+            Przegląd dyscyplin sportów zimowych dostępnych w systemie wraz ze statystykami zawodników i przypisanymi zawodami.
         </p>
     </div>
 
     @if (!Model.Any())
     {
-        <div class="alert alert-info">
-            Brak dyscyplin do wyświetlenia.
+        <div class="ice-panel reveal" style="text-align: center; padding: 4rem 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--ice);">🎿</div>
+            <h2 style="margin-top: 0;">Brak dodanych dyscyplin</h2>
+            <p style="color: var(--muted);">Obecnie w systemie nie ma zarejestrowanych żadnych dyscyplin sportów zimowych.</p>
         </div>
     }
     else
     {
-        <div class="row g-4">
+        <div class="discipline-grid">
             @foreach (var discipline in Model)
             {
-                <div class="col-md-6 col-lg-4">
-                    <article class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h2 class="h5">@discipline.Name</h2>
+                var accentColor = colors[colorIndex % colors.Length];
+                colorIndex++;
 
-                            <p class="text-muted">
-                                @discipline.Description
-                            </p>
+                <article class="discipline-card reveal" style="--accent: @accentColor; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h2 style="margin-top: 0; font-size: 1.6rem; margin-bottom: 0.5rem;">@discipline.Name</h2>
+                        <p style="color: var(--muted); margin-bottom: 1.5rem; overflow-wrap: break-word;">
+                            @(string.IsNullOrWhiteSpace(discipline.Description) ? "Brak szczegółowego opisu dla tej dyscypliny." : discipline.Description)
+                        </p>
+                    </div>
 
-                            <div class="d-flex justify-content-between mt-3">
-                                <span class="badge bg-primary">
-                                    Zawodnicy: @discipline.Athletes.Count
-                                </span>
-
-                                <span class="badge bg-secondary">
-                                    Zawody: @discipline.CompetitionEvents.Count
-                                </span>
-                            </div>
+                    <div class="card-stats" style="grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); padding-top: 1rem;">
+                        <div>
+                            <small>Zawodnicy</small><br />
+                            <strong style="font-size: 1.2rem;">@discipline.Athletes.Count</strong>
                         </div>
-                    </article>
-                </div>
+                        <div>
+                            <small>Wydarzenia</small><br />
+                            <strong style="font-size: 1.2rem;">@discipline.CompetitionEvents.Count</strong>
+                        </div>
+                    </div>
+                </article>
             }
         </div>
     }
