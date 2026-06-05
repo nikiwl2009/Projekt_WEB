@@ -4,127 +4,134 @@
     ViewData["Title"] = "Szczegóły zawodnika";
 }
 
-<section class="container mt-4">
-    <a asp-action="Index" class="btn btn-outline-secondary mb-3">
+<section class="section-block reveal">
+    <a asp-action="Index" class="btn btn-secondary" style="margin-bottom: 2rem;">
         ← Powrót do listy
     </a>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-4 align-items-center">
-                <div class="col-md-3 text-center">
-                    @if (!string.IsNullOrWhiteSpace(Model.PhotoPath))
-                    {
-                        <img src="@Model.PhotoPath"
-                             alt="Zdjęcie zawodnika @Model.FirstName @Model.LastName"
-                             class="img-fluid rounded"
-                             style="max-height: 180px;" />
-                    }
-                    else
-                    {
-                        <div class="border rounded p-4 text-muted">
-                            Brak zdjęcia
-                        </div>
-                    }
-                </div>
-
-                <div class="col-md-9">
-                    <h1>@Model.FirstName @Model.LastName</h1>
-
-                    <p class="text-muted mb-2">
-                        @(Model.Discipline != null ? Model.Discipline.Name : "Brak dyscypliny")
-                    </p>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-3 mb-2">
-                            <strong>Kraj:</strong><br />
-                            @Model.Country
-                        </div>
-
-                        <div class="col-sm-6 col-lg-3 mb-2">
-                            <strong>Klub:</strong><br />
-                            @(Model.Club != null ? Model.Club.Name : "Brak klubu")
-                        </div>
-
-                        <div class="col-sm-6 col-lg-3 mb-2">
-                            <strong>Wiek:</strong><br />
-                            @Model.Age
-                        </div>
-
-                        <div class="col-sm-6 col-lg-3 mb-2">
-                            <strong>Punkty:</strong><br />
-                            @Model.Points
-                        </div>
-                    </div>
-
-                    <p class="mb-0">
-                        <strong>Status:</strong> @Model.Status
-                    </p>
-                </div>
+    <div class="profile-layout reveal" style="margin-bottom: 4rem;">
+        <div class="ice-panel" style="text-align: center;">
+            <div class="athlete-photo large" style="position: relative; margin: 0 auto 1.5rem; padding: 0;">
+                @if (!string.IsNullOrWhiteSpace(Model.PhotoPath))
+                {
+                    <img src="@Model.PhotoPath"
+                         alt="@(Model.FirstName.Substring(0, 1))@(Model.LastName.Substring(0, 1))"
+                         style="width: 100%; height: 100%; object-fit: cover; font-size: 2.5rem; font-weight: bold; color: white; display: flex; align-items: center; justify-content: center;"
+                         loading="lazy" />
+                }
+                else
+                {
+                    <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3.5rem; font-weight: 900; line-height: 1; margin: 0; padding: 0;">
+                        @(Model.FirstName.Substring(0, 1))@(Model.LastName.Substring(0, 1))
+                    </span>
+                }
             </div>
+
+            <h1 style="font-size: 1.8rem; margin: 0; overflow-wrap: break-word;">@Model.FirstName @Model.LastName</h1>
+            <p style="color: var(--ice); font-weight: 800; margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                @(Model.Discipline != null ? Model.Discipline.Name : "Brak dyscypliny")
+            </p>
+
+            <div>
+                <span class="pill" style="font-size: 0.9rem;">Status: @Model.Status</span>
+            </div>
+        </div>
+
+        <div class="ice-panel">
+            <h2 style="margin-top: 0; font-size: 1.4rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                Informacje szczegółowe
+            </h2>
+
+            <dl class="data-list" style="font-size: 1.1rem;">
+                <dt>Kraj</dt>
+                <dd>@Model.Country</dd>
+
+                <dt>Klub</dt>
+                <dd>@(Model.Club != null ? Model.Club.Name : "Brak klubu")</dd>
+
+                <dt>Wiek</dt>
+                <dd>@Model.Age lat</dd>
+
+                <dt>Punkty</dt>
+                <dd><strong style="color: var(--gold); font-size: 1.4rem;">@Model.Points</strong></dd>
+            </dl>
         </div>
     </div>
 
-    <h2 class="h4 mb-3">Wyniki zawodnika</h2>
+    <div class="reveal">
+        <h2 style="margin-bottom: 1.5rem;">Historia Wyników</h2>
 
-    @if (Model.Results == null || !Model.Results.Any())
-    {
-        <div class="alert alert-info">
-            Ten zawodnik nie ma jeszcze zapisanych wyników.
-        </div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="table table-striped align-middle">
-                <thead>
-                    <tr>
-                        <th>Zawody</th>
-                        <th>Data</th>
-                        <th>Miejsce zawodów</th>
-                        <th>Dyscyplina</th>
-                        <th>Miejsce</th>
-                        <th>Punkty</th>
-                        <th>Wynik</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var result in Model.Results)
-                    {
+        @if (Model.Results == null || !Model.Results.Any())
+        {
+            <div class="ice-panel" style="text-align: center; padding: 4rem 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--ice);">📊</div>
+                <h2 style="margin-top: 0;">Brak zapisanych wyników</h2>
+                <p style="color: var(--muted);">Ten zawodnik nie brał jeszcze udziału w żadnych zawodach lub wyniki nie zostały dodane do systemu.</p>
+            </div>
+        }
+        else
+        {
+            <div class="ice-panel table-wrapper" style="padding: 0; overflow: hidden;">
+                <table style="margin: 0;">
+                    <thead style="background: rgba(255,255,255,0.03);">
                         <tr>
-                            <td>
-                                @(result.CompetitionEvent != null ? result.CompetitionEvent.Name : "Brak danych")
-                            </td>
-
-                            <td>
-                                @(result.CompetitionEvent != null ? result.CompetitionEvent.EventDate.ToString("dd.MM.yyyy") : "-")
-                            </td>
-
-                            <td>
-                                @if (result.CompetitionEvent != null)
-                                {
-                                    <span>
-                                        @result.CompetitionEvent.VenueName,
-                                        @result.CompetitionEvent.City
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>-</span>
-                                }
-                            </td>
-
-                            <td>
-                                @(result.CompetitionEvent?.Discipline != null ? result.CompetitionEvent.Discipline.Name : "-")
-                            </td>
-
-                            <td>@result.Place</td>
-                            <td>@result.Points</td>
-                            <td>@result.ScoreText</td>
+                            <th>Zawody</th>
+                            <th>Data</th>
+                            <th>Miejsce zawodów</th>
+                            <th>Pozycja</th>
+                            <th>Punkty</th>
+                            <th>Wynik</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
+                    </thead>
+                    <tbody>
+                        @foreach (var result in Model.Results)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@(result.CompetitionEvent != null ? result.CompetitionEvent.Name : "Brak danych")</strong><br />
+                                    <small style="color: var(--muted);">@(result.CompetitionEvent?.Discipline != null ? result.CompetitionEvent.Discipline.Name : "-")</small>
+                                </td>
+                                <td style="white-space: nowrap;">
+                                    @(result.CompetitionEvent != null ? result.CompetitionEvent.EventDate.ToString("dd.MM.yyyy") : "-")
+                                </td>
+                                <td>
+                                    @if (result.CompetitionEvent != null)
+                                    {
+                                        <span>@result.CompetitionEvent.VenueName, @result.CompetitionEvent.City</span>
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (result.Place == 1)
+                                    {
+                                        <span style="color: #facc15; font-weight: 900;">🥇 1</span>
+                                    }
+                                    else if (result.Place == 2)
+                                    {
+
+                                        <span style="color: #cbd5e1; font-weight: 900;">🥈 2</span>
+                                    }
+                                    else if (result.Place == 3)
+                                    {
+
+                                        <span style="color: #b45309; font-weight: 900;">🥉 3</span>
+                                    }
+                                    else
+                                    {
+
+                                        <span>@result.Place</span>
+                                    }
+                                </td>
+                                <td><span class="pill">@result.Points</span></td>
+                                <td>@result.ScoreText</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 </section>

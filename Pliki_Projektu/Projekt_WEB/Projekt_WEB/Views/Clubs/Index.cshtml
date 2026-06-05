@@ -4,53 +4,57 @@
     ViewData["Title"] = "Kluby";
 }
 
-<section class="container mt-4">
-    <div class="mb-4">
-        <h1>Kluby</h1>
-        <p class="text-muted">
-            Publiczna lista klubów sportów zimowych z podsumowaniem zawodników i punktów.
+<section class="section-block reveal">
+    <div style="margin-bottom: 2rem;">
+        <span class="eyebrow">Zestawienie</span>
+        <h1>Kluby Sportowe</h1>
+        <p class="hero-copy">
+            Publiczna lista klubów sportów zimowych z podsumowaniem zawodników i wyników.
         </p>
     </div>
 
     @if (!Model.Any())
     {
-        <div class="alert alert-info">
-            Brak klubów do wyświetlenia.
+        <div class="ice-panel reveal" style="text-align: center; padding: 4rem 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--ice);">❄️</div>
+            <h2 style="margin-top: 0;">Brak klubów w bazie</h2>
+            <p style="color: var(--muted);">Obecnie nie zarejestrowano jeszcze żadnych klubów sportów zimowych. Wróć tu później!</p>
         </div>
     }
     else
     {
-        <div class="row g-4">
+        <div class="discipline-grid">
             @foreach (var club in Model)
             {
-                <div class="col-md-6 col-lg-4">
-                    <article class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h2 class="h5">@club.Name</h2>
+                <article class="discipline-card reveal">
+                    <h2 style="margin-top: 0; font-size: 1.6rem; margin-bottom: 0.3rem;">@club.Name</h2>
 
-                            <p class="text-muted mb-2">
-                                @club.City, @club.Country
-                            </p>
+                    <p style="color: var(--ice); font-size: 0.9rem; margin-bottom: 1rem; font-weight: 800;">
+                        📍 @club.City, @club.Country
+                    </p>
 
-                            <p>@club.Description</p>
+                    <p style="margin-bottom: 1.5rem; color: var(--muted);">
+                        @(string.IsNullOrEmpty(club.Description) ? "Brak opisu dla tego klubu." : club.Description)
+                    </p>
 
-                            <p class="mb-1">
-                                <strong>Zawodnicy:</strong> @club.Athletes.Count
-                            </p>
-
-                            <p class="mb-3">
-                                <strong>Łączne punkty:</strong> @club.Athletes.Sum(a => a.Points)
-                            </p>
-
-                            <a asp-controller="Clubs"
-                               asp-action="Details"
-                               asp-route-id="@club.ClubId"
-                               class="btn btn-outline-primary">
-                                Szczegóły klubu
-                            </a>
+                    <div class="card-stats" style="margin-bottom: 1.5rem; grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <small>Zawodnicy</small><br />
+                            <strong>@club.Athletes.Count</strong>
                         </div>
-                    </article>
-                </div>
+                        <div>
+                            <small>Punkty</small><br />
+                            <strong>@(club.Athletes.Any() ? club.Athletes.Sum(a => a.Points) : 0)</strong>
+                        </div>
+                    </div>
+
+                    <a asp-controller="Clubs"
+                       asp-action="Details"
+                       asp-route-id="@club.ClubId"
+                       class="btn btn-primary" style="width: 100%;">
+                        Szczegóły klubu
+                    </a>
+                </article>
             }
         </div>
     }

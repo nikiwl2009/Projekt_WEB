@@ -8,122 +8,143 @@
         .ToList();
 }
 
-<section class="container mt-4">
-    <a asp-action="Index" class="btn btn-outline-secondary mb-3">
-        ← Powrót do klubów
+<section class="section-block reveal">
+    <a asp-action="Index" class="btn btn-secondary" style="margin-bottom: 2rem;">
+        ← Powrót do listy klubów
     </a>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h1>@Model.Name</h1>
+    <div class="profile-layout reveal" style="margin-bottom: 4rem;">
 
-            <p class="text-muted">
-                @Model.City, @Model.Country
+        <div class="ice-panel" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem; color: var(--ice);">🏰</div>
+            <h1 style="font-size: 2rem; margin: 0; overflow-wrap: break-word;">@Model.Name</h1>
+            <p style="color: var(--ice); font-weight: 800; margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 1.1rem;">
+                📍 @Model.City, @Model.Country
             </p>
+            <p style="color: var(--muted); padding: 0 1rem;">
+                @(string.IsNullOrEmpty(Model.Description) ? "Brak szczegółowego opisu dla tego klubu." : Model.Description)
+            </p>
+        </div>
 
-            <p>@Model.Description</p>
+        <div class="ice-panel">
+            <h2 style="margin-top: 0; font-size: 1.4rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                Statystyki Klubu
+            </h2>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <strong>Liczba zawodników:</strong><br />
-                    @Model.Athletes.Count
-                </div>
+            <dl class="data-list" style="font-size: 1.1rem; row-gap: 1.5rem;">
+                <dt>Liczba zawodników</dt>
+                <dd><strong style="font-size: 1.3rem;">@Model.Athletes.Count</strong></dd>
 
-                <div class="col-md-4">
-                    <strong>Łączne punkty:</strong><br />
-                    @Model.Athletes.Sum(a => a.Points)
-                </div>
+                <dt>Łączne punkty w rankingu</dt>
+                <dd><strong style="color: var(--gold); font-size: 1.4rem;">@Model.Athletes.Sum(a => a.Points)</strong></dd>
 
-                <div class="col-md-4">
-                    <strong>Najlepszy zawodnik:</strong><br />
-                    @(topAthletes.Any() ? topAthletes.First().FirstName + " " + topAthletes.First().LastName : "Brak danych")
-                </div>
-            </div>
+                <dt>Najlepszy reprezentant</dt>
+                <dd>
+                    @if (topAthletes.Any())
+                    {
+                        var best = topAthletes.First();
+                        <a asp-controller="Athletes" asp-action="Details" asp-route-id="@best.AthleteId" style="text-decoration: underline; color: var(--ice); font-weight: bold;">
+                            @best.FirstName @best.LastName
+                        </a>
+                    }
+                    else
+                    {
+                        <span style="color: var(--muted);">Brak danych</span>
+                    }
+                </dd>
+            </dl>
         </div>
     </div>
 
-    <h2 class="h4 mb-3">Najlepsi zawodnicy</h2>
+    <div class="reveal" style="margin-bottom: 4rem;">
+        <h2 style="margin-bottom: 1.5rem;">Gwiazdy Klubu (TOP 3)</h2>
 
-    @if (!topAthletes.Any())
-    {
-        <div class="alert alert-info">
-            Ten klub nie ma jeszcze zawodników.
-        </div>
-    }
-    else
-    {
-        <div class="row g-4 mb-4">
-            @foreach (var athlete in topAthletes)
-            {
-                <div class="col-md-4">
-                    <article class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h3 class="h5">@athlete.FirstName @athlete.LastName</h3>
+        @if (!topAthletes.Any())
+        {
+            <div class="ice-panel" style="text-align: center; padding: 3rem 2rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--muted);">⭐</div>
+                <h3 style="margin-top: 0;">Klub nie posiada jeszcze reprezentantów</h3>
+            </div>
+        }
+        else
+        {
+            <div class="athlete-grid" style="padding-bottom: 0;">
+                @foreach (var athlete in topAthletes)
+                {
+                    <article class="athlete-card reveal" style="grid-template-columns: 1fr;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="athlete-photo" style="width: 60px; height: 60px; position: relative; padding: 0; border-radius: 14px; flex-shrink: 0;">
+                                @if (!string.IsNullOrEmpty(athlete.PhotoPath))
+                                {
+                                    <img src="@athlete.PhotoPath" alt="@(athlete.FirstName.Substring(0, 1))@(athlete.LastName.Substring(0, 1))" style="width: 100%; height: 100%; object-fit: cover; font-size: 1rem; font-weight: bold; color: white; display: flex; align-items: center; justify-content: center;" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.2rem; font-weight: 900; line-height: 1; margin: 0; padding: 0;">
+                                        @(athlete.FirstName.Substring(0, 1))@(athlete.LastName.Substring(0, 1))
+                                    </span>
+                                }
+                            </div>
 
-                            <p class="text-muted">
-                                @(athlete.Discipline != null ? athlete.Discipline.Name : "Brak dyscypliny")
-                            </p>
-
-                            <p>
-                                <strong>Punkty:</strong> @athlete.Points
-                            </p>
-
-                            <a asp-controller="Athletes"
-                               asp-action="Details"
-                               asp-route-id="@athlete.AthleteId"
-                               class="btn btn-outline-primary">
-                                Karta zawodnika
-                            </a>
+                            <div style="min-width: 0;">
+                                <h3 style="margin: 0; font-size: 1.1rem; overflow-wrap: break-word;">@athlete.FirstName <strong>@athlete.LastName</strong></h3>
+                                <span class="pill" style="margin-top: 0.3rem; background: rgba(250,204,21,.14); color: var(--gold);">
+                                    @athlete.Points pkt
+                                </span>
+                            </div>
                         </div>
+
+                        <a asp-controller="Athletes" asp-action="Details" asp-route-id="@athlete.AthleteId" class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">
+                            Zobacz profil
+                        </a>
                     </article>
-                </div>
-            }
-        </div>
-    }
+                }
+            </div>
+        }
+    </div>
 
-    <h2 class="h4 mb-3">Wszyscy zawodnicy klubu</h2>
+    <div class="reveal">
+        <h2 style="margin-bottom: 1.5rem;">Pełny Skład Klubu</h2>
 
-    @if (!Model.Athletes.Any())
-    {
-        <div class="alert alert-info">
-            Brak zawodników w tym klubie.
-        </div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="table table-striped align-middle">
-                <thead>
-                    <tr>
-                        <th>Zawodnik</th>
-                        <th>Dyscyplina</th>
-                        <th>Kraj</th>
-                        <th>Punkty</th>
-                        <th>Status</th>
-                        <th>Akcja</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var athlete in Model.Athletes.OrderByDescending(a => a.Points))
-                    {
+        @if (!Model.Athletes.Any())
+        {
+            <div class="ice-panel" style="text-align: center; padding: 3rem 2rem;">
+                <p style="color: var(--muted); margin: 0;">Brak zawodników w tym klubie.</p>
+            </div>
+        }
+        else
+        {
+            <div class="ice-panel table-wrapper" style="padding: 0; overflow: hidden;">
+                <table style="margin: 0;">
+                    <thead style="background: rgba(255,255,255,0.03);">
                         <tr>
-                            <td>@athlete.FirstName @athlete.LastName</td>
-                            <td>@(athlete.Discipline != null ? athlete.Discipline.Name : "-")</td>
-                            <td>@athlete.Country</td>
-                            <td>@athlete.Points</td>
-                            <td>@athlete.Status</td>
-                            <td>
-                                <a asp-controller="Athletes"
-                                   asp-action="Details"
-                                   asp-route-id="@athlete.AthleteId"
-                                   class="btn btn-sm btn-outline-primary">
-                                    Szczegóły
-                                </a>
-                            </td>
+                            <th>Zawodnik</th>
+                            <th>Dyscyplina</th>
+                            <th>Kraj</th>
+                            <th>Punkty</th>
+                            <th>Status</th>
+                            <th>Akcja</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
+                    </thead>
+                    <tbody>
+                        @foreach (var athlete in Model.Athletes.OrderByDescending(a => a.Points))
+                        {
+                            <tr>
+                                <td style="font-weight: bold;">@athlete.FirstName @athlete.LastName</td>
+                                <td style="color: var(--muted);">@(athlete.Discipline != null ? athlete.Discipline.Name : "-")</td>
+                                <td>@athlete.Country</td>
+                                <td><span class="pill">@athlete.Points</span></td>
+                                <td>@athlete.Status</td>
+                                <td>
+                                    <a asp-controller="Athletes" asp-action="Details" asp-route-id="@athlete.AthleteId" class="btn btn-secondary" style="min-height: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                                        Szczegóły
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 </section>

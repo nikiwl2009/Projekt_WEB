@@ -1,113 +1,114 @@
 ﻿@model IEnumerable<Projekt_WEB.Models.Athlete>
 
-    @{
-        ViewData["Title"] = "Zawodnicy";
-    }
+@{
+    ViewData["Title"] = "Zawodnicy";
+}
 
-    <section class="container mt-4">
-        <div class="mb-4">
-            <h1>Zawodnicy</h1>
-            <p class="text-muted">
-                Lista zawodników sportów zimowych z możliwością wyszukiwania, filtrowania i sortowania.
-            </p>
+<section class="section-block reveal">
+    <div style="margin-bottom: 2rem;">
+        <span class="eyebrow">Baza Danych</span>
+        <h1>Zawodnicy</h1>
+        <p class="hero-copy">
+            Lista zawodników sportów zimowych z możliwością wyszukiwania, filtrowania i sortowania.
+        </p>
+    </div>
+
+    <form asp-action="Index" method="get" class="filter-bar reveal" style="margin-bottom: 3rem;">
+        <div>
+            <input type="text"
+                   id="search"
+                   name="search"
+                   value="@ViewBag.Search"
+                   placeholder="Szukaj: imię, nazwisko, kraj lub klub..." />
         </div>
 
-        <form asp-action="Index" method="get" class="row g-3 mb-4">
-            <div class="col-md-4">
-                <label for="search" class="form-label">Szukaj</label>
-                <input type="text"
-                       id="search"
-                       name="search"
-                       value="@ViewBag.Search"
-                       class="form-control"
-                       placeholder="imię, nazwisko, kraj lub klub" />
-            </div>
+        <div>
+            <select id="disciplineId" name="disciplineId" asp-items="ViewBag.Disciplines">
+                <option value="">Wszystkie dyscypliny</option>
+            </select>
+        </div>
 
-            <div class="col-md-4">
-                <label for="disciplineId" class="form-label">Dyscyplina</label>
-                <select id="disciplineId" name="disciplineId" class="form-select" asp-items="ViewBag.Disciplines">
-                    <option value="">Wszystkie dyscypliny</option>
-                </select>
-            </div>
+        <div>
+            <select id="sort" name="sort">
+                <option value="">Nazwisko A-Z</option>
+                <option value="name_desc">Nazwisko Z-A</option>
+                <option value="points_desc">Punkty malejąco</option>
+                <option value="points_asc">Punkty rosnąco</option>
+                <option value="age_asc">Wiek rosnąco</option>
+                <option value="age_desc">Wiek malejąco</option>
+            </select>
+        </div>
 
-            <div class="col-md-3">
-                <label for="sort" class="form-label">Sortowanie</label>
-                <select id="sort" name="sort" class="form-select">
-                    <option value="">Nazwisko A-Z</option>
-                    <option value="name_desc">Nazwisko Z-A</option>
-                    <option value="points_desc">Punkty malejąco</option>
-                    <option value="points_asc">Punkty rosnąco</option>
-                    <option value="age_asc">Wiek rosnąco</option>
-                    <option value="age_desc">Wiek malejąco</option>
-                </select>
-            </div>
+        <div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; height: 100%;">Filtruj</button>
+        </div>
+    </form>
 
-            <div class="col-md-1 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">OK</button>
-            </div>
-        </form>
-
-        @if (!Model.Any())
-        {
-            <div class="alert alert-info">
-                Brak zawodników spełniających wybrane kryteria.
-            </div>
-        }
-        else
-        {
-            <div class="row g-4">
-                @foreach (var athlete in Model)
-                {
-                    <div class="col-md-6 col-lg-4">
-                        <article class="card h-100 shadow-sm">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start gap-3">
-                                    <div>
-                                        <h2 class="h5 mb-1">
-                                            @athlete.FirstName @athlete.LastName
-                                        </h2>
-
-                                        <p class="text-muted mb-2">
-                                            @athlete.Country · @(athlete.Club != null ? athlete.Club.Name : "Brak klubu")
-                                        </p>
-                                    </div>
-
-                                    <span class="badge bg-primary">
-                                        @athlete.Points pkt
-                                    </span>
-                                </div>
-
-                                <p class="mb-2">
-                                    <strong>Dyscyplina:</strong>
-                                    @(athlete.Discipline != null ? athlete.Discipline.Name : "Brak danych")
-                                </p>
-
-                                <p class="mb-2">
-                                    <strong>Wiek:</strong> @athlete.Age
-                                </p>
-
-                                <p class="mb-3">
-                                    <strong>Status:</strong> @athlete.Status
-                                </p>
-
-                                <a asp-action="Details"
-                                   asp-route-id="@athlete.AthleteId"
-                                   class="btn btn-outline-primary">
-                                    Szczegóły
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                }
-            </div>
-        }
-    </section>
-
-    <script>
-    const sortSelect = document.getElementById("sort");
-
-    if (sortSelect)
+    @if (!Model.Any())
     {
+        <div class="ice-panel reveal" style="text-align: center; padding: 4rem 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--ice);">🔍</div>
+            <h2 style="margin-top: 0;">Brak wyników wyszukiwania</h2>
+            <p style="color: var(--muted);">Nie znaleziono zawodników spełniających wybrane kryteria filtru. Spróbuj zmienić parametry.</p>
+        </div>
+    }
+    else
+    {
+        <div class="athlete-grid">
+            @foreach (var athlete in Model)
+            {
+                <article class="athlete-card reveal">
+                    <div class="athlete-photo" style="display: flex; align-items: center; justify-content: center; padding: 0;">
+                        @if (!string.IsNullOrEmpty(athlete.PhotoPath))
+                        {
+                            <img src="@athlete.PhotoPath"
+                                 alt="@(athlete.FirstName.Substring(0, 1))@(athlete.LastName.Substring(0, 1))"
+                                 style="width: 100%; height: 100%; object-fit: cover; font-size: 1.8rem; font-weight: bold; color: white; text-align: center;"
+                                 loading="lazy" />
+                        }
+                        else
+                        {
+                            <span style="font-size: 1.8rem; font-weight: bold; line-height: normal; margin: 0; padding: 0;">
+                                @(athlete.FirstName.Substring(0, 1))@(athlete.LastName.Substring(0, 1))
+                            </span>
+                        }
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; justify-content: space-between; min-width: 0;">
+                        <div>
+                            <h2 style="margin: 0; font-size: 1.2rem; line-height: 1.2; overflow-wrap: break-word; word-break: break-word;">
+                                @athlete.FirstName <strong>@athlete.LastName</strong>
+                            </h2>
+                            <p style="margin: 0.2rem 0; font-size: 0.85rem; color: var(--muted); overflow-wrap: break-word;">
+                                🌍 @athlete.Country <br />
+                                🏟️ @(athlete.Club != null ? athlete.Club.Name : "Brak klubu")
+                            </p>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                            <span class="pill">@athlete.Points pkt</span>
+                            <span class="pill" style="background: rgba(250,204,21,.14); color: var(--gold);">
+                                @(athlete.Discipline != null ? athlete.Discipline.Name : "Brak")
+                            </span>
+                        </div>
+                    </div>
+
+                    <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
+                        <a asp-action="Details"
+                           asp-route-id="@athlete.AthleteId"
+                           class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">
+                            Zobacz profil
+                        </a>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</section>
+
+<script>
+    const sortSelect = document.getElementById("sort");
+    if (sortSelect) {
         sortSelect.value = "@ViewBag.Sort";
     }
-    </script>
+</script>
