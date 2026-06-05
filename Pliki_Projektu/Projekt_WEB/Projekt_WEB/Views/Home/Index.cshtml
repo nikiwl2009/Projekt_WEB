@@ -1,8 +1,90 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Start";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero-section reveal">
+    <div>
+        <span class="eyebrow">Sezon 2026</span>
+        <h1>Winter Sports Manager</h1>
+        <div class="hero-copy">
+            <p>System zarządzania zawodnikami sportów zimowych. Śledź na bieżąco wyniki, profile sportowców oraz nadchodzące zmagania na całym świecie.</p>
+        </div>
+        <div class="hero-actions">
+            <a asp-controller="Athletes" asp-action="Index" class="btn btn-primary">Baza Zawodników</a>
+            <a asp-controller="Clubs" asp-action="Index" class="btn btn-secondary">Kluby Sportowe</a>
+        </div>
+    </div>
+    <div style="display: grid; place-items: center;">
+        <div style="font-size: clamp(6rem, 15vw, 10rem); line-height: 1; text-shadow: 0 0 60px rgba(56,189,248,0.4);">🏂</div>
+    </div>
+</section>
+
+<section class="section-block reveal">
+    <div style="margin-bottom: 2rem; text-align: center;">
+        <span class="eyebrow">Lokalizacje</span>
+        <h2 style="margin-top: 0.5rem;">Mapa Wydarzeń</h2>
+        <p class="text-muted">Interaktywna mapa z miejscami rozgrywania zawodów oraz najlepszymi wynikami.</p>
+    </div>
+
+    <div class="ice-panel" style="padding: 0; overflow: hidden;">
+        <div id="competitionMap" style="height: 550px; width: 100%; z-index: 1;"></div>
+    </div>
+</section>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          
+            var map = L.map('competitionMap').setView([48.0, 12.0], 5);
+
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            
+            fetch('/Home/CompetitionMapData')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(event => {
+                       
+                        if (event.latitude && event.longitude) {
+
+                         
+                            let popupContent = `
+                                <div style="min-width: 220px;">
+                                    <h4 style="margin: 0 0 5px 0; color: #071525; font-size: 1.1rem;">${event.name}</h4>
+                                    <p style="margin: 0 0 10px 0; font-size: 0.9em; color: #53687c; line-height: 1.4;">
+                                        📍 <strong>${event.venueName}</strong> (${event.city}, ${event.country})<br/>
+                                        🗓️ ${event.date}<br/>
+                                        ⛷️ ${event.discipline}
+                                    </p>
+                                    <strong style="color: #071525; display: block; margin-bottom: 5px; border-bottom: 1px solid #ccc; padding-bottom: 3px;">Top Wyniki:</strong>
+                                    <ul style="margin: 0; padding-left: 0; list-style: none; font-size: 0.9em; color: #071525;">
+                            `;
+
+                            if (event.topResults && event.topResults.length > 0) {
+                                event.topResults.forEach(res => {
+                                    let medal = res.place === 1 ? '🥇' : res.place === 2 ? '🥈' : res.place === 3 ? '🥉' : `${res.place}.`;
+                                    popupContent += `<li style="margin-bottom: 4px;">${medal} <strong>${res.athlete}</strong> <span style="color: #53687c;">(${res.score})</span></li>`;
+                                });
+                            } else {
+                                popupContent += `<li>Brak wprowadzonych wyników.</li>`;
+                            }
+
+                            popupContent += `</ul></div>`;
+
+                          
+                            L.marker([event.latitude, event.longitude])
+                                .addTo(map)
+                                .bindPopup(popupContent);
+                        }
+                    });
+                })
+                .catch(error => console.error('Błąd pobierania danych mapy:', error));
+        });
+    </script>
+}
