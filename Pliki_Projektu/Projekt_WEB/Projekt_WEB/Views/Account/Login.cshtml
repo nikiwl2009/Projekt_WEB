@@ -1,16 +1,31 @@
-﻿@{
+@{
     ViewData["Title"] = "Logowanie";
 }
 
-<h2>Logowanie administratora</h2>
-<form method="post" asp-action="Login">
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" name="email" class="form-control" required />
+<section class="section-block reveal">
+    <div style="margin-bottom: 2rem;">
+        <span class="eyebrow">Dostęp zastrzeżony</span>
+        <h1>Logowanie administratora</h1>
+        <p class="hero-copy">
+            Wprowadź swoje dane logowania, aby uzyskać dostęp do panelu zarządzania.
+        </p>
     </div>
-    <div class="form-group">
-        <label for="password">Hasło</label>
-        <input type="password" name="password" class="form-control" required />
+
+    <div class="ice-panel" style="max-width: 500px; margin: 0 auto; padding: 2rem;">
+        <form method="post" asp-action="Login">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" required />
+            </div>
+
+            <div class="form-group" style="margin-top: 1.5rem;">
+                <label for="password">Hasło</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Zaloguj</button>
+            </div>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Zaloguj</button>
-</form>
+</section>
