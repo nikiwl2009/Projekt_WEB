@@ -144,7 +144,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Dane wygenerowane na podstawie Model.Results (sortowane chronologicznie)
             var timelineData = @Html.Raw(Json.Serialize(Model.Results?
                 .Where(r => r.CompetitionEvent != null)
                 .OrderBy(r => r.CompetitionEvent!.EventDate)
@@ -181,16 +180,16 @@
                             maintainAspectRatio: false,
                             scales: {
                                 y: {
-                                    reverse: true, // 1 miejsce najwyżej na wykresie
+                                    reverse: true, 
                                     beginAtZero: false,
-                                    suggestedMin: 1, // miejsca zaczynają się od 1
+                                    suggestedMin: 1, 
                                     title: {
                                         display: true,
                                         text: 'Pozycja końcowa'
                                     },
                                     ticks: {
                                         stepSize: 1,
-                                        precision: 0 // wymusza tylko liczby całkowite
+                                        precision: 0 
                                     }
                                 }
                             },
