@@ -1,4 +1,4 @@
-﻿const progress = document.querySelector(".scroll-progress");
+const progress = document.querySelector(".scroll-progress");
 const nav = document.querySelector(".main-nav");
 const navToggle = document.querySelector(".nav-toggle");
 const backTop = document.querySelector(".back-to-top");
@@ -68,7 +68,16 @@ function initPublicCharts() {
                 labels: window.chartData.disciplines.labels,
                 datasets: [{
                     data: window.chartData.disciplines.values,
-                    backgroundColor: ["#38bdf8", "#f97316", "#22c55e", "#facc15"]
+                    backgroundColor: [
+                        "#38bdf8", // Jasnoniebieski
+                        "#f97316", // Pomarańczowy
+                        "#22c55e", // Zielony
+                        "#eab308", // Żółty/Złoty
+                        "#8b5cf6", // Fioletowy
+                        "#ec4899", // Różowy
+                        "#14b8a6", // Morski
+                        "#64748b"  // Szary
+                    ]
                 }]
             },
             options: { responsive: true, plugins: { legend: { position: "bottom" } } }
