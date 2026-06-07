@@ -68,7 +68,14 @@ function initPublicCharts() {
                 labels: window.chartData.disciplines.labels,
                 datasets: [{
                     data: window.chartData.disciplines.values,
-                    backgroundColor: ["#38bdf8", "#f97316", "#22c55e", "#facc15"]
+                    backgroundColor: ["#38bdf8", 
+                        "#f97316",
+                        "#22c55e",
+                        "#eab308",
+                        "#8b5cf6",
+                        "#ec4899",
+                        "#14b8a6",
+                        "#64748b" ]
                 }]
             },
             options: { responsive: true, plugins: { legend: { position: "bottom" } } }
