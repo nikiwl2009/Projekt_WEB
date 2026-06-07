@@ -1,0 +1,40 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Dashboard Statystyk";
+}
+
+<section class="section-block reveal">
+    <div style="margin-bottom: 2rem; text-align: center;">
+        <span class="eyebrow">Analiza</span>
+        <h2 style="margin-top: 0.5rem;">Dashboard Statystyk</h2>
+        <p class="text-muted">Statystyki zawodników, punktów oraz popularności dyscyplin zimowych w systemie.</p>
+    </div>
+
+    <div class="profile-layout" style="margin-bottom: 3rem;">
+        <div class="ice-panel chart-card" style="position: relative;">
+            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--ice);">Zawodnicy wg Dyscypliny</h3>
+            <canvas id="disciplineChart"></canvas>
+        </div>
+        
+        <div class="ice-panel chart-card" style="position: relative;">
+            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--ice);">Top 10 Zawodników wg Punktów</h3>
+            <canvas id="topChart"></canvas>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Przekazanie danych z modelu C# do zmiennej w JavaScript
+        window.chartData = @Html.Raw(Json.Serialize(Model));
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            // Wywołanie funkcji z site.js, która obsługuje inicjalizację tych konkretnych wykresów
+            if (typeof window.initPublicCharts === 'function') {
+                window.initPublicCharts();
+            }
+        });
+    </script>
+}

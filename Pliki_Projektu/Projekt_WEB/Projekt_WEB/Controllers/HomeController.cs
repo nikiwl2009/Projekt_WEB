@@ -68,6 +68,45 @@ namespace Projekt_WEB.Controllers
             return Json(eventsData);
         }
 
+        [HttpGet]
+        public IActionResult Statistics()
+        {
+            var disciplinesData = _context.Disciplines
+                .Include(d => d.Athletes)
+                .Select(d => new
+                {
+                    Name = d.Name,
+                    Count = d.Athletes.Count
+                })
+                .ToList();
+
+            var topAthletesData = _context.Athletes
+                .OrderByDescending(a => a.Points)
+                .Take(10)
+                .Select(a => new
+                {
+                    Name = a.FirstName + " " + a.LastName,
+                    Points = a.Points
+                })
+                .ToList();
+
+            var chartData = new
+            {
+                disciplines = new
+                {
+                    labels = disciplinesData.Select(d => d.Name).ToArray(),
+                    values = disciplinesData.Select(d => d.Count).ToArray()
+                },
+                top = new
+                {
+                    labels = topAthletesData.Select(a => a.Name).ToArray(),
+                    values = topAthletesData.Select(a => a.Points).ToArray()
+                }
+            };
+
+            return View(chartData);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

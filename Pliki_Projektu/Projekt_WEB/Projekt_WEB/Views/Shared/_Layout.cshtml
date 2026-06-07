@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="utf-8" />
@@ -23,6 +23,7 @@
             <a asp-controller="Athletes" asp-action="Index">Zawodnicy</a>
             <a asp-controller="Clubs" asp-action="Index">Kluby</a> <a asp-controller="Disciplines" asp-action="Index">Dyscypliny</a>
             <a asp-controller="Results" asp-action="Index">Wyniki</a>
+            <a asp-controller="Home" asp-action="Statistics">Statystyki</a>
 
             @if (User.Identity?.IsAuthenticated == true)
             {
