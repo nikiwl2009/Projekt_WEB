@@ -165,7 +165,7 @@
                         data: {
                             labels: labels,
                             datasets: [{
-                                label: 'Zajęte miejsce (niżej = lepiej)',
+                                label: 'Zajęte miejsce',
                                 data: dataPoints,
                                 borderColor: '#38bdf8',
                                 backgroundColor: 'rgba(56, 189, 248, 0.2)',
@@ -181,14 +181,16 @@
                             maintainAspectRatio: false,
                             scales: {
                                 y: {
-                                    reverse: true, // 1 miejsce najwyżej
+                                    reverse: true, // 1 miejsce najwyżej na wykresie
                                     beginAtZero: false,
+                                    suggestedMin: 1, // miejsca zaczynają się od 1
                                     title: {
                                         display: true,
                                         text: 'Pozycja końcowa'
                                     },
                                     ticks: {
-                                        stepSize: 1
+                                        stepSize: 1,
+                                        precision: 0 // wymusza tylko liczby całkowite
                                     }
                                 }
                             },
