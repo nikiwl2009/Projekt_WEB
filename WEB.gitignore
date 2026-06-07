@@ -53,3 +53,10 @@ WinterSports.Web/wwwroot/uploads/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+## Nowe
+*.cache
+*.pidb
+*.log
+*.tmp
+project.lock.json
