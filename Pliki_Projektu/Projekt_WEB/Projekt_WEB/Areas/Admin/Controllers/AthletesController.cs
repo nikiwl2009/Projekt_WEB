@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Projekt_WEB.Data;
 using Projekt_WEB.Models;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Projekt_WEB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AthletesController : Controller
     {
         private readonly AppDbContext _context;

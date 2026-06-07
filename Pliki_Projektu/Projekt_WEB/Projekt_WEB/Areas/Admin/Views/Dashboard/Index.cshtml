@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Panel administratora";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Panel administratora</h1>
+<p>Witaj, @User.Identity.Name!</p>
+
+<div class="admin-links">
+    <h3>Zarządzanie</h3>
+    <ul>
+        <li><a asp-area="Admin" asp-controller="Athletes" asp-action="Index">Zawodnicy</a></li>
+        <li><a asp-area="Admin" asp-controller="Clubs" asp-action="Index">Kluby</a></li>
+        <li><a asp-area="Admin" asp-controller="Disciplines" asp-action="Index">Dyscypliny</a></li>
+        <li><a asp-area="Admin" asp-controller="Results" asp-action="Index">Wyniki</a></li>
+        <li><a asp-area="Admin" asp-controller="CompetitionEvents" asp-action="Index">Zawody</a></li>
+    </ul>
+</div>
