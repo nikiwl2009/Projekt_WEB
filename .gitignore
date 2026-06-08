@@ -25,7 +25,7 @@ bld/
 !.vscode/settings.json
 !.vscode/extensions.json
 
-## Test
+## Test results
 TestResults/
 *.trx
 coverage/
@@ -36,25 +36,26 @@ packages/
 *.nupkg
 .nuget/
 
-## User secrets / local config
-secrets.json
-appsettings.Local.json
-appsettings.*.local.json
-
 ## SQLite local database
 *.db
 *.db-shm
 *.db-wal
 
-## Uploads generated locally
-WinterSports.Web/wwwroot/uploads/
+## Local generated uploads
+Pliki_Projektu/Projekt_WEB/Projekt_WEB/wwwroot/images/athletes/*
+!Pliki_Projektu/Projekt_WEB/Projekt_WEB/wwwroot/images/athletes/.gitkeep
 
-## OS
+## Local config / secrets
+secrets.json
+appsettings.Local.json
+appsettings.*.local.json
+
+## OS files
 .DS_Store
 Thumbs.db
 desktop.ini
 
-## Nowe
+## Temporary files
 *.cache
 *.pidb
 *.log
