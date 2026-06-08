@@ -877,3 +877,134 @@ input, select, textarea {
         aspect-ratio: 10 / 8;
     }
 }
+
+.login-standalone-body {
+    min-height: 100dvh;
+    margin: 0;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    padding: clamp(.75rem, 2vh, 1.25rem);
+    background: radial-gradient(circle at top left, rgba(56,189,248,.22), transparent 32rem), radial-gradient(circle at bottom right, rgba(250,204,21,.12), transparent 28rem), var(--bg);
+    color: var(--text);
+}
+
+.login-standalone-page {
+    width: min(440px, 100%);
+}
+
+.login-standalone-card {
+    width: 100%;
+    display: grid;
+    gap: .85rem;
+    padding: clamp(1rem, 3vh, 1.6rem);
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.login-standalone-brand {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    font-weight: 900;
+}
+
+.login-standalone-mark {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--surface-2);
+    color: var(--ice);
+}
+
+.login-standalone-card h1 {
+    margin: .2rem 0 .35rem;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -.06em;
+}
+
+.login-standalone-intro {
+    margin: 0;
+    color: var(--muted);
+}
+
+.login-standalone-form {
+    display: grid;
+    gap: .8rem;
+}
+
+    .login-standalone-form .form-group {
+        display: grid;
+        gap: .35rem;
+    }
+
+    .login-standalone-form label {
+        color: var(--muted);
+        font-weight: 800;
+    }
+
+.login-submit-button {
+    width: 100%;
+    margin-top: .25rem;
+}
+
+.login-home-link {
+    justify-self: center;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .95rem;
+}
+
+    .login-home-link:hover {
+        color: var(--ice);
+    }
+
+@media (max-height: 620px) {
+    .login-standalone-body {
+        padding: .5rem;
+    }
+
+    .login-standalone-card {
+        gap: .55rem;
+        padding: .85rem 1rem;
+        border-radius: 18px;
+    }
+
+    .login-standalone-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+    }
+
+    .login-standalone-card h1 {
+        font-size: 1.65rem;
+        margin-bottom: .2rem;
+    }
+
+    .login-standalone-intro {
+        display: none;
+    }
+
+    .login-standalone-form {
+        gap: .55rem;
+    }
+
+        .login-standalone-form input {
+            padding: .58rem .75rem;
+            border-radius: 12px;
+        }
+
+    .login-submit-button {
+        min-height: 38px;
+        padding: .55rem .85rem;
+    }
+
+    .login-home-link {
+        font-size: .85rem;
+    }
+}

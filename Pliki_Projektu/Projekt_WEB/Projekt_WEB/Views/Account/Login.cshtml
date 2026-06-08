@@ -1,31 +1,77 @@
 @{
+    Layout = null;
     ViewData["Title"] = "Logowanie";
+    var returnUrl = ViewData["ReturnUrl"] as string;
 }
 
-<section class="section-block reveal">
-    <div style="margin-bottom: 2rem;">
-        <span class="eyebrow">Dostęp zastrzeżony</span>
-        <h1>Logowanie administratora</h1>
-        <p class="hero-copy">
-            Wprowadź swoje dane logowania, aby uzyskać dostęp do panelu zarządzania.
-        </p>
-    </div>
-
-    <div class="ice-panel" style="max-width: 500px; margin: 0 auto; padding: 2rem;">
-        <form method="post" asp-action="Login">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" required />
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Logowanie - Winter Sports Manager</title>
+    <link rel="icon" type="image/png" href="~/snieg.png">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+</head>
+<body class="login-standalone-body">
+    <main class="login-standalone-page">
+        <section class="login-standalone-card" aria-labelledby="login-title">
+            <div class="login-standalone-brand">
+                <span class="login-standalone-mark">❄</span>
+                <span>Winter Sports Manager</span>
             </div>
 
-            <div class="form-group" style="margin-top: 1.5rem;">
-                <label for="password">Hasło</label>
-                <input type="password" name="password" class="form-control" required />
+            <div>
+                <span class="eyebrow">Dostęp zastrzeżony</span>
+                <h1 id="login-title">Logowanie administratora</h1>
+                <p class="login-standalone-intro">
+                    Wprowadź dane logowania, aby przejść do panelu zarządzania.
+                </p>
             </div>
 
-            <div style="margin-top: 2rem;">
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Zaloguj</button>
-            </div>
-        </form>
-    </div>
-</section>
+            @if (ViewData["Error"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewData["Error"]
+                </div>
+            }
+
+            <form method="post" asp-controller="Account" asp-action="Login" class="login-standalone-form">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="returnUrl" value="@returnUrl">
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email"
+                           type="email"
+                           name="email"
+                           class="form-control"
+                           autocomplete="email"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Hasło</label>
+                    <input id="password"
+                           type="password"
+                           name="password"
+                           class="form-control"
+                           autocomplete="current-password"
+                           required>
+                </div>
+
+                <button type="submit" class="btn btn-primary login-submit-button">
+                    Zaloguj
+                </button>
+            </form>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="login-home-link">
+                ← Wróć na stronę główną
+            </a>
+        </section>
+    </main>
+</body>
+</html>
