@@ -1,4 +1,4 @@
-﻿@model Projekt_WEB.Models.Athlete
+@model Projekt_WEB.Models.Athlete
 
 @{
     ViewData["Title"] = "Szczegóły zawodnika";
@@ -71,6 +71,13 @@
         }
         else
         {
+            <div class="ice-panel chart-card" style="position: relative; height:400px; width:100%; margin-bottom: 2rem;">
+                <canvas id="athleteTimelineChart">
+    Wykres liniowy prezentujący historię zdobytych miejsc przez zawodnika.
+</canvas>
+
+            </div>
+
             <div class="ice-panel table-wrapper" style="padding: 0; overflow: hidden;">
                 <table style="margin: 0;">
                     <thead style="background: rgba(255,255,255,0.03);">
@@ -135,3 +142,69 @@
         }
     </div>
 </section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var timelineData = @Html.Raw(Json.Serialize(Model.Results?
+                .Where(r => r.CompetitionEvent != null)
+                .OrderBy(r => r.CompetitionEvent!.EventDate)
+                .Select(r => new { 
+                    date = r.CompetitionEvent!.EventDate.ToString("dd.MM.yyyy"),
+                    place = r.Place
+                }) ?? Enumerable.Empty<object>()
+            ));
+
+            if (timelineData && timelineData.length > 0) {
+                var labels = timelineData.map(function(d) { return d.date; });
+                var dataPoints = timelineData.map(function(d) { return d.place; });
+
+                var ctx = document.getElementById('athleteTimelineChart');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Zajęte miejsce',
+                                data: dataPoints,
+                                borderColor: '#38bdf8',
+                                backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                                fill: true,
+                                tension: 0.3,
+                                pointBackgroundColor: '#f97316',
+                                pointRadius: 5,
+                                pointHoverRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    reverse: true, 
+                                    beginAtZero: false,
+                                    suggestedMin: 1, 
+                                    title: {
+                                        display: true,
+                                        text: 'Pozycja końcowa'
+                                    },
+                                    ticks: {
+                                        stepSize: 1,
+                                        precision: 0 
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+}
