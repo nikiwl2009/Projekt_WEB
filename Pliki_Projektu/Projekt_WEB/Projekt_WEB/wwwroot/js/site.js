@@ -80,7 +80,7 @@ function initPublicCharts() {
                     ]
                 }]
             },
-            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } }
         });
     }
 
@@ -95,7 +95,7 @@ function initPublicCharts() {
                     backgroundColor: "#38bdf8"
                 }]
             },
-            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
         });
     }
 }

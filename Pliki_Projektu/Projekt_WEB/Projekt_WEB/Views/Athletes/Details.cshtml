@@ -72,7 +72,10 @@
         else
         {
             <div class="ice-panel chart-card" style="position: relative; height:400px; width:100%; margin-bottom: 2rem;">
-                <canvas id="athleteTimelineChart"></canvas>
+                <canvas id="athleteTimelineChart">
+    Wykres liniowy prezentujący historię zdobytych miejsc przez zawodnika.
+</canvas>
+
             </div>
 
             <div class="ice-panel table-wrapper" style="padding: 0; overflow: hidden;">
@@ -144,7 +147,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Dane wygenerowane na podstawie Model.Results (sortowane chronologicznie)
             var timelineData = @Html.Raw(Json.Serialize(Model.Results?
                 .Where(r => r.CompetitionEvent != null)
                 .OrderBy(r => r.CompetitionEvent!.EventDate)
@@ -181,16 +183,16 @@
                             maintainAspectRatio: false,
                             scales: {
                                 y: {
-                                    reverse: true, // 1 miejsce najwyżej na wykresie
+                                    reverse: true, 
                                     beginAtZero: false,
-                                    suggestedMin: 1, // miejsca zaczynają się od 1
+                                    suggestedMin: 1, 
                                     title: {
                                         display: true,
                                         text: 'Pozycja końcowa'
                                     },
                                     ticks: {
                                         stepSize: 1,
-                                        precision: 0 // wymusza tylko liczby całkowite
+                                        precision: 0 
                                     }
                                 }
                             },
