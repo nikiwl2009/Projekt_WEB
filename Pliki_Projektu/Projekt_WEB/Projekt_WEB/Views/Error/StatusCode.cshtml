@@ -1,0 +1,33 @@
+﻿@{
+    var statusCode = ViewData["StatusCode"] ?? "Błąd";
+    ViewData["Title"] = "Błąd " + statusCode;
+}
+
+<section class="error-stage">
+    <div class="error-card reveal">
+        <p class="eyebrow">Błąd @statusCode</p>
+
+        <h1>Coś poszło nie tak</h1>
+
+        <p class="error-lead">
+            Wystąpił problem podczas obsługi żądania.
+            Wróć na stronę główną albo przejdź do jednej z publicznych sekcji aplikacji.
+        </p>
+
+        <div class="error-actions">
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-primary">
+                Wróć na stronę główną
+            </a>
+
+            <a asp-area=""
+               asp-controller="Athletes"
+               asp-action="Index"
+               class="btn btn-secondary">
+                Zawodnicy
+            </a>
+        </div>
+    </div>
+</section>

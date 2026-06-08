@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "404 - Trasa zamknięta";
+}
+
+<section class="error-stage error-404-stage">
+    <div class="error-card reveal">
+        <p class="eyebrow">Błąd 404</p>
+
+        <h1>Trasa zamknięta — ta strona nie istnieje</h1>
+
+        <p class="error-lead">
+            Wygląda na to, że skręciłeś poza oznaczoną trasę.
+            Ten adres nie prowadzi do żadnej strony w systemie zawodników sportów zimowych.
+        </p>
+
+        <div class="error-actions">
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-primary">
+                Wróć na stronę główną
+            </a>
+
+            <a asp-area=""
+               asp-controller="Athletes"
+               asp-action="Index"
+               class="btn btn-secondary">
+                Zobacz zawodników
+            </a>
+        </div>
+
+        <div class="ski-preview" aria-label="Dekoracja przedstawiająca narciarza i zamkniętą trasę">
+            <div class="ski-preview-slope">
+                <div class="ski-preview-track track-one"></div>
+                <div class="ski-preview-track track-two"></div>
+                <div class="ski-preview-skier"></div>
+                <div class="ski-preview-barrier barrier-one"></div>
+                <div class="ski-preview-barrier barrier-two"></div>
+                <div class="ski-preview-sign">STOP</div>
+            </div>
+        </div>
+
+        <p class="error-note">
+            W kolejnym etapie ta strona dostanie prostą pikselową mini grę narciarską.
+        </p>
+    </div>
+</section>
