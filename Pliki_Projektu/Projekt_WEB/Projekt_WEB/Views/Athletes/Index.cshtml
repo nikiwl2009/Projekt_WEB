@@ -13,37 +13,32 @@
         </p>
     </div>
 
-    <form asp-action="Index" method="get" class="filter-bar reveal" style="margin-bottom: 3rem;">
-        <div>
-            <input type="text"
-                   id="search"
-                   name="search"
-                   value="@ViewBag.Search"
-                   placeholder="Szukaj: imię, nazwisko, kraj lub klub..."
-                   aria-label="Wyszukiwarka zawodników />
-        </div>
+   <form asp-action="Index" method="get" class="filter-bar reveal" style="margin-bottom: 3rem;">
+    <div>
+        <input type="text" id="search" name="search" value="@ViewBag.Search" placeholder="Szukaj: imię, nazwisko, kraj lub klub..." />
+    </div>
 
-        <div>
-            <select id="disciplineId" name="disciplineId" asp-items="ViewBag.Disciplines">
-                <option value="">Wszystkie dyscypliny</option>
-            </select>
-        </div>
+    <div>
+        <select id="disciplineId" name="disciplineId" asp-items="ViewBag.Disciplines">
+            <option value="">Wszystkie dyscypliny</option>
+        </select>
+    </div>
 
-        <div>
-            <select id="sort" name="sort">
-                <option value="">Nazwisko A-Z</option>
-                <option value="name_desc">Nazwisko Z-A</option>
-                <option value="points_desc">Punkty malejąco</option>
-                <option value="points_asc">Punkty rosnąco</option>
-                <option value="age_asc">Wiek rosnąco</option>
-                <option value="age_desc">Wiek malejąco</option>
-            </select>
-        </div>
+    <div>
+        <select id="sort" name="sort">
+            <option value="">Nazwisko A-Z</option>
+            <option value="name_desc">Nazwisko Z-A</option>
+            <option value="points_desc">Punkty malejąco</option>
+            <option value="points_asc">Punkty rosnąco</option>
+            <option value="age_asc">Wiek rosnąco</option>
+            <option value="age_desc">Wiek malejąco</option>
+        </select>
+    </div>
 
-        <div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; height: 100%;">Filtruj</button>
-        </div>
-    </form>
+    <div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; height: 100%;">Filtruj</button>
+    </div>
+</form>
 
     @if (!Model.Any())
     {
