@@ -10,7 +10,7 @@
 
         <p class="error-lead">
             Wygląda na to, że skręciłeś poza oznaczoną trasę.
-            Ten adres nie prowadzi do żadnej strony w systemie zawodników sportów zimowych.
+            Możesz wrócić na stronę główną albo spróbować ukończyć mini wyzwanie narciarskie.
         </p>
 
         <div class="error-actions">
@@ -29,19 +29,64 @@
             </a>
         </div>
 
-        <div class="ski-preview" aria-label="Dekoracja przedstawiająca narciarza i zamkniętą trasę">
-            <div class="ski-preview-slope">
-                <div class="ski-preview-track track-one"></div>
-                <div class="ski-preview-track track-two"></div>
-                <div class="ski-preview-skier"></div>
-                <div class="ski-preview-barrier barrier-one"></div>
-                <div class="ski-preview-barrier barrier-two"></div>
-                <div class="ski-preview-sign">STOP</div>
+        <div class="ski-game-panel" data-target-distance="16000">
+            <div class="ski-game-header">
+                <div>
+                    <h2>404 Ski Challenge</h2>
+                    <p>
+                        Omiń zamknięte trasy i przejedź 16 000 m.
+                        Cel inspirowany długością legendarnej trasy Sarenne w Alpe d’Huez.
+                    </p>
+                </div>
+
+                <div class="ski-game-stats">
+                    <span>Dystans: <strong id="skiDistance">0 m</strong></span>
+                    <span>Najlepszy lokalnie: <strong id="skiBestDistance">0 m</strong></span>
+                </div>
+            </div>
+
+            <div class="ski-game-wrap">
+                <canvas id="ski404Canvas"
+                        width="720"
+                        height="420"
+                        aria-label="Mini gra narciarska 404">
+                    Twoja przeglądarka nie obsługuje canvas.
+                </canvas>
+
+                <div class="ski-game-overlay" id="skiGameOverlay">
+                    <h3 id="skiOverlayTitle">Gotowy do zjazdu?</h3>
+                    <p id="skiOverlayText">
+                        Sterowanie: strzałki albo WASD. Na telefonie użyj przycisków pod grą.
+                    </p>
+                    <button type="button" class="btn btn-primary" id="skiStartButton">
+                        Start
+                    </button>
+                </div>
+            </div>
+
+            <div class="ski-mobile-controls" aria-label="Sterowanie mobilne">
+                <button type="button" data-control="up">↑</button>
+                <div>
+                    <button type="button" data-control="left">←</button>
+                    <button type="button" data-control="down">↓</button>
+                    <button type="button" data-control="right">→</button>
+                </div>
+            </div>
+
+            <div class="ski-game-footer">
+                <p>
+                    Kolizja kończy przejazd. Trudność rośnie wraz z dystansem.
+                    Po osiągnięciu celu trafisz na ukrytą stronę gratulacji.
+                </p>
+
+                <button type="button" class="btn btn-secondary" id="skiRestartButton">
+                    Restart gry
+                </button>
             </div>
         </div>
-
-        <p class="error-note">
-            W kolejnym etapie ta strona dostanie prostą pikselową mini grę narciarską.
-        </p>
     </div>
 </section>
+
+@section Scripts {
+    <script src="~/js/ski404.js" asp-append-version="true"></script>
+}
