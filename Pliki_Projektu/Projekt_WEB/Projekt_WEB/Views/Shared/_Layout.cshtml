@@ -19,11 +19,12 @@
         <button class="nav-toggle" type="button" aria-label="Otwórz menu">☰</button>
 
         <nav class="main-nav" aria-label="Nawigacja główna">
-            <a asp-controller="Home" asp-action="Index">Start</a>
-            <a asp-controller="Athletes" asp-action="Index">Zawodnicy</a>
-            <a asp-controller="Clubs" asp-action="Index">Kluby</a> <a asp-controller="Disciplines" asp-action="Index">Dyscypliny</a>
-            <a asp-controller="Results" asp-action="Index">Wyniki</a>
-            <a asp-controller="Home" asp-action="Statistics">Statystyki</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Start</a>
+            <a asp-area="" asp-controller="Athletes" asp-action="Index">Zawodnicy</a>
+            <a asp-area="" asp-controller="Clubs" asp-action="Index">Kluby</a>
+            <a asp-area="" asp-controller="Disciplines" asp-action="Index">Dyscypliny</a>
+            <a asp-area="" asp-controller="Results" asp-action="Index">Wyniki</a>
+            <a asp-area="" asp-controller="Home" asp-action="Statistics">Statystyki</a>
 
             @if (User.Identity?.IsAuthenticated == true)
             {
@@ -34,7 +35,7 @@
             }
             else
             {
-                <a asp-controller="Account" asp-action="Login">Logowanie</a>
+                <a asp-area="" asp-controller="Account" asp-action="Login">Logowanie</a>
             }
             <button class="theme-toggle" type="button" aria-label="Zmień motyw">◐</button>
         </nav>

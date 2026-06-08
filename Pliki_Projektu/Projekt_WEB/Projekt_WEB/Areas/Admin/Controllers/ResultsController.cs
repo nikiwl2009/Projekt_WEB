@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Projekt_WEB.Data;
 using Projekt_WEB.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Projekt_WEB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ResultsController : Controller
     {
         private readonly AppDbContext _context;

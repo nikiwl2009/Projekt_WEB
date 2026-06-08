@@ -1,0 +1,26 @@
+﻿@using Projekt_WEB.ViewModels
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Panel administratora";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Panel administratora</h1>
+<p>Witaj, @User.Identity.Name!</p>
+
+<div class="stats">
+    <div><strong>Zawodnicy:</strong> @Model.AthletesCount</div>
+    <div><strong>Kluby:</strong> @Model.ClubsCount</div>
+    <div><strong>Dyscypliny:</strong> @Model.DisciplinesCount</div>
+    <div><strong>Wyniki:</strong> @Model.ResultsCount</div>
+    <div><strong>Zawody:</strong> @Model.CompetitionEventsCount</div>
+</div>
+
+<h3>Zarządzanie</h3>
+<ul>
+    <li><a asp-area="Admin" asp-controller="Athletes" asp-action="Index">Zawodnicy</a></li>
+    <li><a asp-area="Admin" asp-controller="Clubs" asp-action="Index">Kluby</a></li>
+    <li><a asp-area="Admin" asp-controller="Disciplines" asp-action="Index">Dyscypliny</a></li>
+    <li><a asp-area="Admin" asp-controller="Results" asp-action="Index">Wyniki</a></li>
+    <li><a asp-area="Admin" asp-controller="CompetitionEvents" asp-action="Index">Zawody</a></li>
+</ul>
