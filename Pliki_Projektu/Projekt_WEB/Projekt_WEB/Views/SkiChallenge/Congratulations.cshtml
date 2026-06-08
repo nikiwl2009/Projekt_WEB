@@ -1,0 +1,90 @@
+﻿@model Projekt_WEB.ViewModels.SkiChallengeWinnerViewModel
+
+@{
+    ViewData["Title"] = "Gratulacje - 404 Ski Challenge";
+    var challengeCompleted = Model.DistanceMeters >= Model.TargetDistanceMeters;
+}
+
+<section class="container mt-4">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <p class="text-muted mb-1">Ukryta strona wyzwania 404</p>
+
+            <h1>Gratulacje — trasa ukończona</h1>
+
+            <p>
+                Przejechany dystans:
+                <strong>@Model.DistanceMeters m</strong>
+                z wymaganych
+                <strong>@Model.TargetDistanceMeters m</strong>.
+            </p>
+
+            @if (!challengeCompleted)
+            {
+                <div class="alert alert-warning">
+                    Ten wynik jest za niski, żeby zapisać Cię jako zawodnika.
+                    Najpierw ukończ wyzwanie na stronie 404.
+                </div>
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Wróć na stronę główną
+                </a>
+            }
+            else
+            {
+                <div class="alert alert-success">
+                    Możesz dopisać się do bazy jako specjalny zawodnik z mini gry 404.
+                    Formularz zapisuje tylko imię i nazwisko — reszta danych zostanie ustawiona automatycznie.
+                </div>
+
+                <form asp-area=""
+                      asp-controller="SkiChallenge"
+                      asp-action="Congratulations"
+                      method="post"
+                      class="mt-3">
+
+                    <input type="hidden" asp-for="DistanceMeters" />
+                    <input type="hidden" asp-for="TargetDistanceMeters" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" autocomplete="given-name" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" autocomplete="family-name" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            Dodaj mnie do zawodników
+                        </button>
+
+                        <a asp-area=""
+                           asp-controller="Athletes"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Zobacz listę zawodników
+                        </a>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

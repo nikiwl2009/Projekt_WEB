@@ -1,0 +1,64 @@
+﻿@model Projekt_WEB.Models.Athlete
+
+@{
+    ViewData["Title"] = "Zapisano zawodnika 404";
+    var distance = ViewBag.DistanceMeters ?? 0;
+}
+
+<section class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p class="text-muted mb-1">404 Ski Challenge</p>
+
+            <h1>Zapisano Cię jako zawodnika</h1>
+
+            <div class="alert alert-success">
+                Wynik z mini gry został zapisany w bazie.
+            </div>
+
+            <p>
+                <strong>Zawodnik:</strong>
+                @Model.FirstName @Model.LastName
+            </p>
+
+            <p>
+                <strong>Dystans:</strong>
+                @distance m
+            </p>
+
+            <p>
+                <strong>Dyscyplina:</strong>
+                @(Model.Discipline != null ? Model.Discipline.Name : "Brak danych")
+            </p>
+
+            <p>
+                <strong>Klub:</strong>
+                @(Model.Club != null ? Model.Club.Name : "Brak danych")
+            </p>
+
+            <div class="mt-4">
+                <a asp-area=""
+                   asp-controller="Athletes"
+                   asp-action="Details"
+                   asp-route-id="@Model.AthleteId"
+                   class="btn btn-primary">
+                    Zobacz moją kartę zawodnika
+                </a>
+
+                <a asp-area=""
+                   asp-controller="Athletes"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Lista zawodników
+                </a>
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Strona główna
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
