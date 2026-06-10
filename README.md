@@ -4,7 +4,7 @@
 Aplikacja Winter Sports Manager to rozwiązanie gromadzące dane o klubach sportowych, zawodnikach, ich wynikach oraz przypisanych dyscyplinach. Dzięki podziałowi na strefę publiczną oraz prywatną strefę administracyjną, system pełni z jednej strony funkcję informacyjną i statystyczną dla zainteresowanych, a z drugiej może być narzędziem pracy dla administratorów zarządzających zawodami sportów zimowych. 
 
 ## Najważniejsze funkcjonalności 
-* Interaktywna mapa Europy -  podgląd lokalizacji zawodów. 
+* Interaktywna mapa świata -  podgląd lokalizacji zawodów. 
 * Inteligentna wyszukiwarka - filtrowanie zawodników.
 * Wizualizacja danych - wykresy statystyczne na podstawie danych. 
 * Panel Administratora CRUD -  zabezpieczony obszar do zarządzania klubami, wynikami i zawodnikami. 
