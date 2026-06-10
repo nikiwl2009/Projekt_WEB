@@ -5,22 +5,61 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Panel administratora</h1>
-<p>Witaj, @User.Identity.Name!</p>
+<section class="section-block reveal">
+    <div style="margin-bottom: 2rem;">
+        <span class="eyebrow">Panel sterowania</span>
+        <h1>Panel administratora</h1>
+        <p class="hero-copy">
+            Witaj, <strong>@User.Identity.Name</strong>! Tutaj znajdziesz podsumowanie danych i szybki dostęp do zarządzania treścią.
+        </p>
+    </div>
 
-<div class="stats">
-    <div><strong>Zawsssodnicy:</strong> @Model.AthletesCount</div>
-    <div><strong>Kluby:</strong> @Model.ClubsCount</div>
-    <div><strong>Dyscypliny:</strong> @Model.DisciplinesCount</div>
-    <div><strong>Wyniki:</strong> @Model.ResultsCount</div>
-    <div><strong>Zawody:</strong> @Model.CompetitionEventsCount</div>
-</div>
+    <div class="stats-grid reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <div class="ice-panel" style="text-align: center; padding: 1.5rem 1rem;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏃‍♂️</div>
+            <div style="font-size: 2rem; font-weight: 700;">@Model.AthletesCount</div>
+            <div style="color: var(--muted);">Zawodników</div>
+        </div>
+        <div class="ice-panel" style="text-align: center; padding: 1.5rem 1rem;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏛️</div>
+            <div style="font-size: 2rem; font-weight: 700;">@Model.ClubsCount</div>
+            <div style="color: var(--muted);">Klubów</div>
+        </div>
+        <div class="ice-panel" style="text-align: center; padding: 1.5rem 1rem;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⛷️</div>
+            <div style="font-size: 2rem; font-weight: 700;">@Model.DisciplinesCount</div>
+            <div style="color: var(--muted);">Dyscyplin</div>
+        </div>
+        <div class="ice-panel" style="text-align: center; padding: 1.5rem 1rem;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📊</div>
+            <div style="font-size: 2rem; font-weight: 700;">@Model.ResultsCount</div>
+            <div style="color: var(--muted);">Wyników</div>
+        </div>
+        <div class="ice-panel" style="text-align: center; padding: 1.5rem 1rem;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏆</div>
+            <div style="font-size: 2rem; font-weight: 700;">@Model.CompetitionEventsCount</div>
+            <div style="color: var(--muted);">Zawodów</div>
+        </div>
+    </div>
 
-<h2>Zarządzanie</h2>
-<ul>
-    <li><a asp-area="Admin" asp-controller="Athletes" asp-action="Index">Zawodnicy</a></li>
-    <li><a asp-area="Admin" asp-controller="Clubs" asp-action="Index">Kluby</a></li>
-    <li><a asp-area="Admin" asp-controller="Disciplines" asp-action="Index">Dyscypliny</a></li>
-    <li><a asp-area="Admin" asp-controller="Results" asp-action="Index">Wyniki</a></li>
-    <li><a asp-area="Admin" asp-controller="CompetitionEvents" asp-action="Index">Zawody</a></li>
-</ul>
+    <div class="reveal">
+        <h2 style="margin-bottom: 1.5rem;">Zarządzanie danymi</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+            <a asp-area="Admin" asp-controller="Athletes" asp-action="Index" class="btn btn-primary" style="text-align: center; padding: 0.8rem;">
+                🏃‍♂️ Zawodnicy
+            </a>
+            <a asp-area="Admin" asp-controller="Clubs" asp-action="Index" class="btn btn-primary" style="text-align: center; padding: 0.8rem;">
+                🏛️ Kluby
+            </a>
+            <a asp-area="Admin" asp-controller="Disciplines" asp-action="Index" class="btn btn-primary" style="text-align: center; padding: 0.8rem;">
+                ⛷️ Dyscypliny
+            </a>
+            <a asp-area="Admin" asp-controller="Results" asp-action="Index" class="btn btn-primary" style="text-align: center; padding: 0.8rem;">
+                📊 Wyniki
+            </a>
+            <a asp-area="Admin" asp-controller="CompetitionEvents" asp-action="Index" class="btn btn-primary" style="text-align: center; padding: 0.8rem;">
+                🏆 Zawody
+            </a>
+        </div>
+    </div>
+</section>
