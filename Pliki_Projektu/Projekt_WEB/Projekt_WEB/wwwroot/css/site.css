@@ -420,6 +420,7 @@ input, select, textarea {
     gap: .7rem;
 }
 
+
 .validation {
     color: #fb7185;
     font-size: .9rem;
@@ -541,6 +542,21 @@ input, select, textarea {
     .site-footer {
         flex-direction: column;
     }
+}
+
+@media (max-width: 768px) {
+
+    table, .table {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        white-space: nowrap !important;
+    }
+}
+
+body {
+    overflow-x: hidden !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
