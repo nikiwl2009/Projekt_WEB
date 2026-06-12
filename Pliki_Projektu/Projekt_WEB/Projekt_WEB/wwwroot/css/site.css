@@ -491,7 +491,7 @@ input, select, textarea {
 
 @media (max-width: 900px) {
     .hero-section, .section-grid, .profile-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0,1fr);
     }
 
     .athlete-grid, .discipline-grid {
@@ -506,6 +506,14 @@ input, select, textarea {
         grid-template-columns: 1fr;
     }
 }
+@media (max-width: 640px) {
+    .data-list {
+        grid-template-columns: auto 1fr;
+        align-items: center; 
+    }
+}
+
+
 
 @media (max-width: 640px) {
     .main-nav {
