@@ -308,6 +308,7 @@ input, select, textarea {
     padding: 1.1rem;
     display: grid;
     grid-template-columns: 90px 1fr;
+    grid-template-rows: 1fr auto;
     gap: 1rem;
     transition: transform .22s ease;
 }
@@ -367,6 +368,13 @@ input, select, textarea {
 .discipline-card {
     padding: 1.3rem;
     border-top: 5px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+}
+   
+    .discipline-card > .btn {
+        margin-top: auto;
+    }
 }
 
 .profile-layout {
