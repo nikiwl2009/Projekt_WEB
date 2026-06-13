@@ -88,7 +88,7 @@
                             <td>@(athlete.Club != null ? athlete.Club.Name : "-")</td>
                             <td>@athlete.Age</td>
                             <td>@athlete.Points</td>
-                            <td>@athlete.Status</td>
+                            <td>@Html.DisplayFor(m => athlete.Status)</td>
                             <td>
                                 <a asp-area="Admin"
                                    asp-controller="Athletes"

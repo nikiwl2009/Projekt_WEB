@@ -134,7 +134,7 @@
                                 <td style="color: var(--muted);">@(athlete.Discipline != null ? athlete.Discipline.Name : "-")</td>
                                 <td>@athlete.Country</td>
                                 <td><span class="pill">@athlete.Points</span></td>
-                                <td>@athlete.Status</td>
+                                <td>@Html.DisplayFor(m => athlete.Status)</td>
                                 <td>
                                     <a asp-controller="Athletes" asp-action="Details" asp-route-id="@athlete.AthleteId" class="btn btn-secondary" style="min-height: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
                                         Szczegóły
